@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Catapultazo es un juego de mesa estratégico basado en precisión, cálculo y lanzamientos.">
+
+    <title>Catapultazo</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- THREEJS -->
+    <canvas id="bg" aria-hidden="true"></canvas>
+
+    <div class="gradient"></div>
+
+    <!-- HEADER -->
+    <header>
+
+        <a href="#inicio" class="logo">
+            CATAPULTAZO
+        </a>
+
+        <nav>
+
+            <a href="#inicio">Inicio</a>
+            <a href="#catapultazo">¿Qué es?</a>
+            <a href="#como-es">¿Cómo es?</a>
+            <a href="#impacto">¿Porqué es?</a>
+            <a href="#pix">Pix</a>
+
+
+        </nav>
+
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <section id="inicio" class="hero">
+
+            <div class="hero-content">
+
+                <span class="tag">
+                    APUNTA · CALCULA · LANZA
+                </span>
+
+                <h1>
+                    AQUÍ LAS DECISIONES NO
+                    SOLO SE PIENSAN,
+                    SE LANZAN.
+                </h1>
+
+                <p>
+                    Catapultazo es un juego de mesa interactivo
+                    donde los jugadores deberán enfrentarse
+                    mediante lanzamientos estratégicos,
+                    precisión y control del espacio de juego.
+                </p>
+
+                <div class="buttons">
+
+                    <a href="#experimental" class="primary">
+                        experimenta
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- CATAPULTAZO -->
+        <section id="catapultazo" class="catapultazo">
+
+            <div class="catapultazo-bg"></div>
+
+            <!-- 🔥 FIX IMPORTANTE: esto lo necesita tu JS -->
+            <div class="parallax-bg"></div>
+
+            <div class="catapultazo-editorial">
+
+    <div class="catapultazo-info">
+
+        <div class="catapultazo-titulo parallax-right">
+
+            <h2>
+                ¿QUÉ ES<br>
+                CATAPULTAZO?
+            </h2>
+
+        </div>
+
+        <div class="catapultazo-texto parallax-left">
+
+            <p>
+                Catapultazo es un juego de mesa para 3 o 4 
+                jugadores, de más de 12 años de edad, 
+                donde se busca competividad entre 
+                jugadores, así trayendo un flujo intenso 
+                y una clara inmersión a cada momento.
+
+                Inspirado en la interacción física
+                de los juegos de mesa contemporáneos
+                y en las experiencias lúdicas
+                colaborativas, Catapultazo propone
+                una experiencia donde el movimiento,
+                el cálculo y la sorpresa conviven
+                en una misma mecánica.
+
+                Cada turno es una oportunidad para
+                atacar, defender o alterar
+                completamente el equilibrio
+                del juego.
+            </p>
+
+        </div>
+
+    </div>
+
+<div class="catapultazo-imagen">
+
+    <img
+        src="./assets/piezasjuego2.png"
+        alt="Componentes de Catapultazo"
+        class="catapultazo-vector"
+    >
+
+    </div>
+
+</div>
+
+        </section>
+
+        <section id="como-es" class="parallax-section como-es">
+
+    <div class="parallax-layer fondo"></div>
+    <div class="parallax-layer medio"></div>
+    <div class="parallax-layer frente"></div>
+
+    <div class="como-es-content">
+
+        <h2 class="titulo-seccion">
+            CONCEPTOS CLAVES
+        </h2>
+
+        <p class="bajada-seccion">
+            Pilares que definen Catapultazo:
+            precisión, estrategia y control del impacto.
+        </p>
+
+        <!-- ESPACIO PARA IMÁGENES -->
+
+<div class="conceptos-grid">
+
+    <!-- PRECISIÓN -->
+    <div class="concepto-card">
+
+        <h3>PRECISIÓN</h3>
+
+        <p class="concepto-resumen">
+            Control del lanzamiento y cálculo del impacto.
+        </p>
+
+        <div class="concepto-detalle">
+
+            <p>
+                La precisión representa la capacidad del jugador
+                para controlar la fuerza, dirección y trayectoria
+                de cada lanzamiento. Un movimiento exacto puede
+                cambiar completamente el resultado de la partida.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ESTRATEGIA -->
+    <div class="concepto-card">
+
+        <h3>ESTRATEGIA</h3>
+
+        <p class="concepto-resumen">
+            Decisiones que cambian el rumbo de la partida.
+        </p>
+
+        <div class="concepto-detalle">
+
+            <p>
+                Cada turno obliga a analizar riesgos y oportunidades.
+                Elegir cuándo atacar, defender o modificar el tablero
+                es tan importante como el propio lanzamiento.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- IMPACTO -->
+    <div class="concepto-card">
+
+        <h3>IMPACTO</h3>
+
+        <p class="concepto-resumen">
+            Física, rebotes y control del espacio de juego.
+        </p>
+
+        <div class="concepto-detalle">
+
+            <p>
+                El impacto determina cómo interactúan las piezas
+                con el tablero. Rebotes, desplazamientos y colisiones
+                generan nuevas situaciones estratégicas en cada ronda.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<section id="impacto" class="impacto">
+
+    <div class="impacto-layout">
+
+        <div class="impacto-izquierda">
+
+            <h2 class="impacto-titulo">
+                NO TODO IMPACTO<br>
+                OCURRE POR<br>
+                ACCIDENTE
+            </h2>
+
+            <div class="impacto-bloque">
+
+                <p>
+                    Cada lanzamiento nace de una decisión estratégica dentro del juego.
+                </p>
+
+                <p>
+                    Las acciones de los jugadores modifican el tablero y generan situaciones inesperadas.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="impacto-derecha">
+
+            <div class="impacto-bloque">
+
+                <p>
+                    Cada lanzamiento nace de una decisión estratégica.
+                    Los jugadores modifican el tablero y cambian el rumbo de la partida.
+                </p>
+
+            </div>
+
+            <div class="impacto-cuadro">
+                <img src="./assets/caja del juego.png" alt="" class="impacto-caja">
+            </div>
+
+            <div class="impacto-bloque">
+
+                <p>
+                    La combinación entre habilidad, observación y precisión genera situaciones únicas.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <section id="pix" class="pix">
+
+    <div class="pix-layout">
+
+        <div class="pix-left">
+
+            <h2 class="pix-titulo">
+                PiX
+            </h2>
+
+            <p class="pix-texto">
+                PiX representa la experiencia interactiva del juego.
+                Aquí podrás visualizar demostraciones, secuencias de
+                juego y ejemplos de interacción entre jugadores,
+                mecánicas y componentes.
+            </p>
+
+        </div>
+
+       <div class="pix-right">
+
+    <div id="pix-container" class="pix-container">
+        <div class="pix-loading">Cargando PiX...</div>
+    </div>
+
+</div>
+
+<!-- DATA PIX -->
+<script type="application/json" id="pix-data">
+eyJ0aXRsZSI6IkludGVyYWNjacOzbiBkZSBDYXRhcHVsdGF6byAiLCJsYXlvdXQiOiJwaXgiLCJkZXNjcmlwdGlvbiI6IjMtNCBqdWdhZG9yZXMiLCJzY29yZXMiOltbeyJzdGVwX3RpdGxlIjoiQXBlcnR1cmEgZGUgY2FqYSBkZSBqdWVnbyIsInVzZXIiOiJwaXgtaW50cmlndWVkIFF1aWVybyBhYnJpciBsYSBjYWphIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBsZXZhbnRhIGxhIHRhcGEgc3VwZXJpb3IgZGUgbGEgY2FqYSIsInN5c3RlbSI6IiIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoicGl4LXN1cnByaXNlZCBPYnNlcnZhIGNvbW8gYWN0w7phIGxhIGNhamEgYWwgbGV2YW50YXIgbGEgdGFwYSIsImRpYWxvZ3VlIjoiIiwic3lzdGVtIjoicGl4LXByb2Nlc3MgTGEgdGFwYSBzdXBlcmlvciBhbCBsZXZhbnRhcnNlLCBzZSBhYnJlIGRlIGZvcm1hIHN1YXZlIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiJwaXgtc3VycHJpc2VkIE9ic2VydmEgZWwgaW50ZXJpb3IgZGUgbGEgY2FqYSIsImRpYWxvZ3VlIjoiIiwic3lzdGVtIjoicGl4LWFyY2hpdmUgQ2FqYSBndWFyZGEgdGFibGVybywgcGVvbmVzLCBtdW5pY2lvbmVzLCBjYXRhcHVsdGEsIGNhcnRhcyB5IG1hbnVhbCBkZSB1c28iLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiSW50ZXJhY2Npw7NuIGNvbiBwYXJ0ZXMgZGVsIGp1ZWdvIiwidXNlciI6IiIsImRpYWxvZ3VlIjoicGl4LWhhbmQgVG9tYSBlbCBtYW51YWwgZGUgdXNvIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC12aWV3IExlZSBlbCBtYW51YWwgZGUgdXNvIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC1tb3ZlIFNhY2EgbG9zIGVsZW1lbnRvcyBkZSBsYSBjYWphIiwic3lzdGVtIjoicGl4LXNoYXJlIExhIGNhamEgc2UgZGVqYSBhIHVuIGNvc3RhZG8geSBsYXMgcGFydGVzIGRlbCBqdWVnbyBzZSBkZWphbiBhbCBjZW50cm8gZGUgbGEgbWVzYSIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoicGl4LXNtaWxpbmcgXCJRdWUgbGluZGEgbGEgcGFsZXRhIGRlIGNvbG9yZXNcIiIsImRpYWxvZ3VlIjoicGl4LWhhbmQgVG9tYSBsYXMgY2FydGFzIHkgbGFzIHJldnVlbHZlIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC1tb3ZlIE9yZGVuYSBlbCB0YWJsZXJvIGVuIGxhIG1lc2EiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiSW5pY2lvIGRlIHR1cm5vIDEiLCJ1c2VyIjoicGl4LWludHJpZ3VlZCBKdWdhZG9yIChBKSBJbmljaWEgZWwganVlZ28iLCJkaWFsb2d1ZSI6InBpeC1oYW5kIFNhY2EgdW5hIGNhcnRhIGFsIGF6YXIgZGVsIG1hem8sIGxlIHRvY2EgdW5hIGRlIG1vdmltaWVudG8gKzMiLCJzeXN0ZW0iOiJwaXgtcmlnaHQgTXVldmUgc3UgcGXDs24gZW4gdHJlcyBjYXNpbGxhcyIsIm5vdGUiOiJIYXkgOCB0aXBvcyBkZSBjYXJ0YXM7IG1vdmltaWVudG8sIGNhdGFwdWx0YSwgbXVuaWNpw7NuLCBlc2N1ZG8sIHBpdG9uaXNvLCBsYWRyw7NuLCBqdWljaW8geSBwb3pvLiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC10YXAxZG93biBEZXZ1ZWx2ZSBsYSBjYXJ0YSBhbCBtYXpvIGRlIGRlc2NhcnRlIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IkluaWNpbyBkZSB0dXJubyAyIiwidXNlciI6InBpeC1oYXBweSBKdWdhZG9yIChCKSBcIk1lIHRvY2EganVnYXJcIiIsImRpYWxvZ3VlIjoicGl4LWhhbmQgU2FjYSB1bmEgY2FydGEgYWwgYXphciBkZWwgbWF6bywgbGUgdG9jYSB1bmEgZGUgbW92aW1pZW50byArNCIsInN5c3RlbSI6InBpeC1yaWdodCBNdWV2ZSBzdSBwZcOzbiBjdWF0cm8gY2FzaWxsYXMiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6InBpeC1oYXBweSBcIsKhU8OtISB1biArNFwiIiwiZGlhbG9ndWUiOiJwaXgtdGFwMWRvd24gRGV2dWVsdmUgbGEgY2FydGEgYWwgbWF6byBkZSBkZXNjYXJ0ZSIsInN5c3RlbSI6IiIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiJJbmljaW8gZGUgdHVybm8gMyIsInVzZXIiOiJwaXgtaW50cmlndWVkIEp1Z2Fkb3IgKEMpIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBTYWNhIHVuYSBjYXJ0YSBhbCBhemFyIGRlbCBtYXpvLCBsZSB0b2NhIHVuYSBjYXJ0YSBkZSBwb3pvIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiJwaXgtaW50cmlndWVkIMK/Q2FydGEgZGUgcG96bz8iLCJkaWFsb2d1ZSI6IiIsInN5c3RlbSI6InBpeC1zZW5kIFNhY2EgdW5hIGZpY2hhIGRlIHBvem8iLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoicGl4LXZpZXcgTGVlIGxhIGNhcnRhIGRlIGV4cGxpY2FjacOzbiBkZSBsYXMgZmljaGFzIGRlIHBvem8iLCJzeXN0ZW0iOiJwaXgtc2VuZCBTYWxlIHVuYSBmaWNoYSBkZSBcIkludmFzacOzblwiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiJwaXgtaGFwcHkgXCJKYWphamFqYVwiIiwiZGlhbG9ndWUiOiJwaXgtdXBkYXRlIEp1Z2Fkb3IgKEMpIGNhbWJpYSBzdSBwZcOzbiBwb3IgZWwgcGXDs24gZGVsIGp1Z2Fkb3IgKEIpIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC10YXAxZG93biBEZXZ1ZWx2ZSBsYSBjYXJ0YSBhbCBtYXpvIGRlIGRlc2NhcnRlIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IkluaWNpbyBkZSB0dXJubyA0IiwidXNlciI6InBpeC1pbnRyaWd1ZWQgSnVnYWRvciAoQSkiLCJkaWFsb2d1ZSI6InBpeC1oYW5kIFNhY2EgdW5hIGNhcnRhIGFsIGF6YXIgZGVsIG1hem8sIGxlIHNhbGUgbGEgY2FydGEgZGUgbW92aW1pZW50byArMyIsInN5c3RlbSI6InBpeC1yaWdodCBNdWV2ZSBzdSBwZcOzbiB0cmVzIGNhc2lsbGFzIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC10YXAgQ2FlIGVuIGxhIGNhc2lsbGEgZGUgQ2F0YXB1bHRhIGVuIGVsIHRhYmxlcm8iLCJzeXN0ZW0iOiJwaXgtcmlnaHQgU2UgbGUgcGFzYSBhbCBqdWdhZG9yIGxhIGNhdGFwdWx0YSB5IHVuYSBtdW5pY2nDs24iLCJub3RlIjoiTGEgY2FzaWxsYSBkZSBjYXRhcHVsdGEgZW4gZWwgdGFibGVybyBnZW5lcmEgcXVlIGVsIGp1Z2Fkb3IgcHVlZGEgYWNjZWRlciBhIGxhIGNhdGFwdWx0YSB5IGxhbnphciB1bmEgdmV6LiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC1yaWdodCBMYW56YSBsYSBjYXRhcHVsdGEgKG5vIGdvbHBlYSBhIG5hZGllKSIsInN5c3RlbSI6IiIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoiIiwiZGlhbG9ndWUiOiJwaXgtdGFwMWRvd24gRGV2dWVsdmUgbGEgY2FydGEgYWwgbWF6byBkZSBkZXNjYXJ0ZSIsInN5c3RlbSI6IiIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiJJbmljaW8gZGUgdHVybm8gNSIsInVzZXIiOiJwaXgtc2FkIEp1Z2Fkb3IgKEIpIFwiUHVjaGEgZXN0b3kgZGUgbG9zIMO6bHRpbW9zXCIiLCJkaWFsb2d1ZSI6InBpeC1oYW5kIFNhY2EgdW5hIGNhcnRhIGFsIGF6YXIgZGVsIG1hem8sIHNhbGUgbGEgY2FydGEgZGVsIHBpdG9uaXNvIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC1pbnRyaWd1ZWQgU2FjYSA1IGNhcnRhcyBkZWwgbWF6bywgbGFzIHJlb3JkZW5hIHkgbGFzIGRldnVlbHZlIGEgc3UgbHVnYXIiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoicGl4LXRhcDFkb3duIERldnVlbHZlIGxhIGNhcnRhIGFsIG1hem8gZGUgZGVzY2FydGUiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiSW5pY2lvIGRlIHR1cm5vIDYiLCJ1c2VyIjoicGl4LXNtaWxpbmcgSnVnYWRvciAoQykiLCJkaWFsb2d1ZSI6InBpeC1oYW5kIFNhY2EgdW5hIGNhcnRhIGFsIGF6YXIgZGVsIG1hem8sIHNhbGUgbGEgY2FydGEgbW92aW1pZW50byArMyIsInN5c3RlbSI6InBpeC1yaWdodCBNdWV2ZSBzdSBwZcOzbiB0cmVzIGNhc2lsbGFzIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC1zZW5kIENhZSBlbiBsYSBjYXNpbGxhIGRlIHBvem8gZW4gZWwgdGFibGVybyIsInN5c3RlbSI6InBpeC1zZW5kIFNhY2EgdW5hIGZpY2hhIGFsIGF6YXIgeSBzYWxlIGZpY2hhIGRlIHJlc2NhdGUiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6InBpeC1zbWlsaW5nIFwiWW8gdGUgdm95IGEgYXl1ZGFyIGFtaWdvIChCKVwiIiwiZGlhbG9ndWUiOiIiLCJzeXN0ZW0iOiJwaXgtcmlnaHQgTXVldmUgbGEgZmljaGEgZGVsIGp1Z2Fkb3IgKEIpIHPDs2xvIHVuYSBjYXNpbGxhIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC10YXAxZG93biBEZXZ1ZWx2ZSBsYSBjYXJ0YSBhbCBtYXpvIGRlIGRlc2NhcnRlIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IkluaWNpbyB0dXJubyA3IiwidXNlciI6InBpeC1zbWlsaW5nIEp1Z2Fkb3IgKEEpIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBTYWNhIHVuYSBjYXJ0YSBhbCBhemFyIGRlbCBtYXpvLCBzYWxlIGxhIGNhcnRhIG1vdmltaWVudG8gKzQiLCJzeXN0ZW0iOiJwaXgtcmlnaHQgTXVldmUgc3UgcGXDs24gY3VhdHJvIGNhc2lsbGFzIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC1zZW5kIENhZSBlbiBsYSBjYXNpbGxhIGRlIHBvem8gZW4gZWwgdGFibGVybyIsInN5c3RlbSI6InBpeC1zZW5kIFNhY2EgdW5hIGZpY2hhIGFsIGF6YXIgeSBzYWxlIGxhIGZpY2hhIGRlIGNvbmdlbGFkbyIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoiIiwiZGlhbG9ndWUiOiJwaXgtY2FuY2VsIEVsIGp1Z2Fkb3IgKEEpIGNvbmdlbGEgYWwganVnYWRvciAoQikiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoicGl4LXRhcDFkb3duIERldnVlbHZlIGxhIGNhcnRhIGFsIG1hem8gZGUgZGVzY2FydGUiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiSW5pY2lvIHR1cm5vIDgiLCJ1c2VyIjoicGl4LWZ1cmlvdXMgSnVnYWRvciAoQikiLCJkaWFsb2d1ZSI6InBpeC1jYW5jZWwgTm8ganVlZ2EgcG9ycXVlIGVzdMOhIGNvbmdlbGFkbyIsInN5c3RlbSI6IiIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiJJbmljaW8gdHVybm8gOSIsInVzZXIiOiJwaXgtc3VycHJpc2VkIEp1Z2Fkb3IgKEMpIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBTYWNhIHVuYSBjYXJ0YSBhbCBhemFyIGRlbCBtYXpvLCBzYWxlIGxhIGNhcnRhIGRlICs0Iiwic3lzdGVtIjoicGl4LXJpZ2h0IE11ZXZlIHN1IHBlw7NuIGN1YXRybyBjYXNpbGxhcyIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoiIiwiZGlhbG9ndWUiOiIiLCJzeXN0ZW0iOiJwaXgtZG91YmxldGFwIENhZSBlbiBsYSBjYXNpbGxhIGRlIENhdGFwdWx0YSIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoiIiwiZGlhbG9ndWUiOiJwaXgtdGFwIExhbnphIHVuYSBtdW5pY2nDs24gYWwganVnYWRvciAoQSkgcGVybyBubyBsb2dyYSBib3RhcmxvIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6InBpeC10YXAxZG93biBEZXZ1ZWx2ZSBsYSBjYXJ0YSBhbCBtYXpvIGRlIGRlc2NhcnRlIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IkluaWNpbyBkZSB0dXJubyAxMCIsInVzZXIiOiJwaXgtaGFwcHkgSnVnYWRvciAoQSkiLCJkaWFsb2d1ZSI6InBpeC1oYW5kIFNhY2EgdW5hIGNhcnRhIGFsIGF6YXIgZGVsIG1hem8sIHNhbGUgbGEgY2FydGEgZGUgKzMiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoiIiwic3lzdGVtIjoicGl4LXJpZ2h0IE11ZXZlIHN1IHBlw7NuIDMgY2FzaWxsYXMgeSBjYWUgZW4gdW5hIGNhc2lsbGEgZGUgYmFzZSIsIm5vdGUiOiJMYSBjYXNpbGxhIGRlIGJhc2Ugb3RvcmdhIHByb3RlY2Npw7NuIGFudGUgY2HDrWRhcyBkZSBjYXRhcHVsdGEifSx7InN0ZXBfdGl0bGUiOiIiLCJ1c2VyIjoiIiwiZGlhbG9ndWUiOiJwaXgtdGFwMWRvd24gRGV2dWVsdmUgbGEgY2FydGEgYWwgbWF6byBkZSBkZXNjYXJ0ZSIsInN5c3RlbSI6IiIsIm5vdGUiOiIifSx7InN0ZXBfdGl0bGUiOiJJbmljaW8gZGUgdHVybm8gMTEiLCJ1c2VyIjoicGl4LWFuZ3J5IEp1Z2Fkb3IgKEIpIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBTYWNhIHVuYSBjYXJ0YSBhbCBhemFyIGRlbCBtYXpvLCBzYWxlIGxhIGNhcnRhIGRlIG1vdmltaWVudG8gKzIiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoiIiwic3lzdGVtIjoicGl4LXJpZ2h0IE11ZXZlIHN1IHBlw7NuIDIgY2FzaWxsYXMiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoicGl4LXRhcDFkb3duIERldnVlbHZlIGxhIGNhcnRhIGFsIG1hem8gZGUgZGVzY2FydGUiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiSW5pY2lvIGRlIHR1cm5vIDEyIiwidXNlciI6InBpeC1zbWlsaW5nIEp1Z2Fkb3IgKEMpIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBTYWNhIHVuYSBjYXJ0YSBhbCBhemFyIGRlbCBtYXpvLCBzYWxlIGxhIGNhcnRhICsyIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6IiIsInN5c3RlbSI6InBpeC1yaWdodCBNdWV2ZSBzdSBwZcOzbiAyIGNhc2lsbGFzIHkgY2FlIGVuIHVuYSBjYXNpbGxhIGRlIGJhc2UiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiIiwidXNlciI6IiIsImRpYWxvZ3VlIjoicGl4LXRhcDFkb3duIERldnVlbHZlIGxhIGNhcnRhIGFsIG1hem8gZGUgZGVzY2FydGUiLCJzeXN0ZW0iOiIiLCJub3RlIjoiIn0seyJzdGVwX3RpdGxlIjoiSW5pY2lvIGRlIHR1cm5vIDEzIiwidXNlciI6InBpeC1zbWlsaW5nIiwiZGlhbG9ndWUiOiJwaXgtaGFuZCBTYWNhIHVuYSBjYXJ0YSBhbCBhemFyIGRlbCBtYXpvLCBzYWxlIGxhIGNhcnRhICsyIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiIiLCJkaWFsb2d1ZSI6IiIsInN5c3RlbSI6InBpeC1yaWdodCBNdWV2ZSBzdSBwZcOzbiAyIGNhc2lsbGFzIHkgbGxlZ2EgYSBsYSBtZXRhIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IiIsInVzZXIiOiJwaXgtaGFwcHkgXCLCoVPDrSEgR2Fuw6lcIiIsImRpYWxvZ3VlIjoiIiwic3lzdGVtIjoiIiwibm90ZSI6IiJ9LHsic3RlcF90aXRsZSI6IlTDqXJtaW5vIGRlbCBqdWVnbyIsInVzZXIiOiJwaXgtdGhpbmsgXCJTw60sIGdhbsOpXCIgXCJObyBzZSB2YWxlLCBtZSBjb25nZWxhc3RlXCIgXCJFcyBwYXJ0ZSBkZWwganVlZ29cIiIsImRpYWxvZ3VlIjoicGl4LWNvbGxhcHNlIEd1YXJkYW4gZWwganVlZ28gZW4gbGEgY2FqYSIsInN5c3RlbSI6IiIsIm5vdGUiOiIifV1dfQ====
+</script>
+</section>
+
+        <section id="experimental" class="experimental">
+
+   <section id="experimental" class="experimental">
+
+    <div class="experimental-layout">
+
+        <div class="experimental-left">
+
+            <h2 class="titulo-experimental">
+                PÁGINA EXPERIMENTAL
+            </h2>
+
+        </div>
+
+        <div class="experimental-right">
+
+            <p class="texto-experimental">
+                Este espacio explora una versión alternativa del juego,
+                donde se levanta una experiencia interactiva.
+            </p>
+
+            <a href="experiencia.html" class="btn-experimental">
+    Experimenta
+</a>
+          
+
+        </div>
+
+    </div>
+
+</section>
+
+</section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+
+        <h3>CATAPULTAZO</h3>
+
+        <p>
+            Proyecto interactivo desarrollado
+            para explorar el juego de 
+            mesa "Catapultazo" y su experiencia lúdica.
+        </p>
+
+    </footer>
+
+    <!-- SCRIPT -->
+    <script type="module" src="./script.js"></script>
+
+</body>
+
+</html>

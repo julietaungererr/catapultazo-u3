@@ -1,0 +1,1266 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#000;
+    color:white;
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* =========================
+   FONDO GIF
+========================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:url('./assets/fondo2gif.gif');
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    opacity:.10;
+    mix-blend-mode:screen;
+    z-index:-4;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 70% 35%, rgba(230,31,132,.08), transparent 30%),
+        radial-gradient(circle at 80% 60%, rgba(195,209,4,.06), transparent 35%);
+    z-index:-1;
+}
+
+/* =========================
+   THREEJS CANVAS
+========================= */
+
+#bg{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:-3;
+    pointer-events:none;
+}
+
+/* =========================
+   GRADIENTE
+========================= */
+
+.gradient{
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(230,31,132,.12), transparent 40%),
+        radial-gradient(circle at 80% 60%, rgba(195,209,4,.10), transparent 45%),
+        radial-gradient(circle at center, rgba(184,177,216,.08), transparent 60%);
+    z-index:-2;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:30px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:100;
+    background:rgba(0,0,0,.15);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.logo{
+    font-size:1rem;
+    font-weight:900;
+    letter-spacing:4px;
+    color:#C3D104;
+    text-decoration:none;
+}
+
+nav{
+    display:flex;
+    gap:40px;
+}
+
+nav a{
+    color:#B8B1D8;
+    text-decoration:none;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#C3D104;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding:160px 8vw 220px;
+}
+
+.hero-content{
+    max-width:650px;
+    padding-top:60px;
+    display:flex;
+    flex-direction:column;
+    gap:32px; /* 👈 clave: ritmo editorial */
+}
+
+.tag{
+    display:inline-block;
+
+    padding:8px 14px;   /* 👈 antes era muy grande */
+    border-radius:999px;
+
+    border:1px solid rgba(195,209,4,.3);
+    background:rgba(195,209,4,.08);
+
+    color:#C3D104;
+
+    margin-bottom:10px; /* 👈 menos separación exagerada */
+
+    font-size:.75rem;
+    letter-spacing:2px;
+    line-height:1;
+    width:fit-content;  /* 👈 clave para que no “se estire raro” */
+}
+.hero h1{
+    font-size:clamp(3rem,7vw,6rem);
+    line-height:.95;
+    font-weight:900;
+    letter-spacing:-4px;
+    margin:0;
+}
+
+.hero p{
+    margin:0;
+    max-width:520px;
+    line-height:1.8;
+    color:#B8B1D8;
+}
+
+.buttons{
+    margin-top:40px;
+    display:flex;
+    gap:20px;
+}
+
+.primary,
+.secondary{
+    padding:18px 34px;
+    border-radius:999px;
+    text-decoration:none;
+    transition:.3s;
+    font-weight:700;
+}
+
+.primary{
+    background:#E61F84;
+    color:white;
+    box-shadow:0 0 30px rgba(230,31,132,.5);
+}
+
+.primary:hover{
+    transform:translateY(-4px);
+}
+
+.secondary{
+    border:1px solid rgba(184,177,216,.2);
+    color:#B8B1D8;
+    background:rgba(184,177,216,.08);
+}
+
+/* =========================
+   CATAPULTAZO
+========================= */
+
+.catapultazo{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:220px 8vw; /* 👈 separación fuerte */
+}
+
+.catapultazo-bg{
+    position:absolute;
+    inset:0;
+
+    background: rgba(184, 177, 216, 0.75);
+
+    backdrop-filter: blur(8px);
+
+    z-index:0;
+}
+
+.catapultazo-editorial{
+    width:100%;
+    max-width:1400px;
+
+    display:grid;
+    grid-template-columns:55% 45%;
+
+    gap:80px;
+
+    align-items:center;
+
+    z-index:2;
+}
+
+.catapultazo-info{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.catapultazo-texto{
+    max-width:700px;
+    margin-top:0;
+}
+
+.catapultazo-texto p{
+    font-size:1.25rem;
+    font-weight:900;
+    text-transform:none;
+    line-height:1.05;
+}
+
+.catapultazo-titulo{
+    margin-bottom:24px;
+}
+
+.catapultazo-titulo h2{
+    background:none;          
+    padding:0;                
+    border-radius:0;
+
+    color:#C3D104;            
+
+    font-size:clamp(1.8rem, 2.5vw, 2.6rem);
+    font-weight:900;
+
+    letter-spacing:-0.03em;
+    line-height:1.05;
+
+    box-shadow:none;          
+}
+
+.catapultazo-imagen{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.placeholder-imagen{
+    width:100%;
+    max-width:500px;
+    height:600px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(12px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#E61F84;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+/* =========================
+   IMPACTO (FIX LIMPIO)
+========================= */
+
+.impacto{
+    padding:120px 0;
+    display:flex;
+    justify-content:center;
+}
+
+.impacto-layout{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    background:#C3D104;
+
+    align-items:start;
+}
+
+/* ambas columnas */
+.impacto-izquierda,
+.impacto-derecha{
+    display:flex;
+    flex-direction:column;
+    gap:32px;
+    color:#E61F84;
+}
+
+/* IZQUIERDA */
+.impacto-izquierda{
+    padding:80px 60px;
+}
+
+/* TITULO BLOQUE */
+.impacto-titulo-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:32px; /* 👈 separación real entre título y texto */
+}
+
+/* TITULO */
+.impacto-izquierda h2{
+    margin:0;
+    color:#E61F84;
+    line-height:1.05;
+}
+
+/* TEXTO IZQUIERDA */
+.impacto-texto-izquierda{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    max-width:420px;
+}
+
+.impacto-texto-izquierda p{
+    margin:0;
+    color:#E61F84;
+    font-weight:500;
+    font-size:1.1rem;
+    line-height:1.8;
+}
+
+/* DERECHA */
+.impacto-derecha{
+    padding:80px 60px;
+}
+
+/* PÁRRAFOS DERECHA */
+.impacto-texto{
+    margin:0;
+    color:#E61F84;
+    font-weight:500;
+    font-size:1.1rem;
+    line-height:1.8;
+}
+
+/* IMAGEN */
+.impacto-cuadro{
+    width:400px;
+    height:400px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.impacto-caja{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+}
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    padding:120px 20px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.05);
+}
+
+footer h3{
+    color:#C3D104;
+    margin-bottom:20px;
+}
+
+footer p{
+    color:#B8B1D8;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    header{
+        padding:20px;
+    }
+
+    nav{
+        display:none;
+    }
+
+    .hero{
+        padding:0 25px 160px;
+    }
+
+    .catapultazo{
+        padding:160px 25px;
+    }
+
+    .impacto{
+        padding:160px 0;
+    }
+
+    .catapultazo-editorial{
+        grid-template-columns:1fr;
+    }
+}
+.como-es-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    color: white;
+    max-width: 900px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.titulo-seccion {
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.bajada-seccion {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 50px;
+}
+
+/* GRID PARA IMÁGENES */
+.conceptos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.concepto-card {
+    min-height:180px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.conceptos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    perspective: 1000px;
+}
+
+/* =========================
+   CARD BASE
+========================= */
+
+.concepto-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(40px);
+}
+
+/* imagen placeholder */
+.concepto-img {
+    height: 120px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #E61F84, #C3D104);
+    margin-bottom: 15px;
+    transform: translateZ(20px);
+}
+
+/* texto */
+.concepto-card h3 {
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+.concepto-card p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+/* =========================
+   HOVER 3D
+========================= */
+
+.concepto-card:hover {
+    transform: rotateX(8deg) rotateY(-8deg) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* =========================
+   CONCEPTOS CLAVES
+========================= */
+
+.conceptos-grid{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    gap:30px;
+
+    margin-top:60px;
+
+    flex-wrap:nowrap;
+}
+
+.concepto-card{
+
+    width:320px;
+
+    min-height:220px;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(12px);
+
+    cursor:pointer;
+
+    transition:.35s ease;
+
+    overflow:hidden;
+
+    opacity:1;
+
+    transform:none;
+}
+
+.concepto-card h3{
+
+    color:#C3D104;
+
+    font-size:1.4rem;
+
+    margin-bottom:15px;
+
+    text-align:center;
+}
+
+.concepto-resumen{
+
+    color:white;
+
+    text-align:center;
+
+    opacity:.8;
+
+    line-height:1.5;
+}
+
+.concepto-detalle{
+
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    margin-top:0;
+
+    transition:
+        max-height .5s ease,
+        opacity .3s ease,
+        margin-top .3s ease;
+}
+
+.concepto-card.activa .concepto-detalle{
+
+    max-height:250px;
+
+    opacity:1;
+
+    margin-top:20px;
+}
+
+.concepto-detalle p{
+
+    color:#B8B1D8;
+
+    line-height:1.6;
+
+    text-align:left;
+}
+
+.concepto-card:hover{
+
+    transform:translateY(-8px);
+
+    border-color:#E61F84;
+}
+
+.concepto-card.activa{
+
+    border-color:#E61F84;
+
+    box-shadow:
+        0 0 30px rgba(230,31,132,.25);
+}
+
+/* RESPONSIVE */
+
+@media (max-width:1100px){
+
+    .conceptos-grid{
+
+        flex-direction:column;
+
+        align-items:center;
+    }
+
+    .concepto-card{
+
+        width:100%;
+
+        max-width:500px;
+    }
+}
+
+/* =========================
+   GRID
+========================= */
+
+.conceptos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    perspective: 1000px;
+}
+
+/* =========================
+   CARD BASE
+========================= */
+
+.concepto-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(12px);
+
+    transform-style: preserve-3d;
+
+    opacity: 0;
+    transform: translateY(40px);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+/* imagen */
+.concepto-img {
+    height: 120px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #E61F84, #C3D104);
+    margin-bottom: 15px;
+    transform: translateZ(20px);
+}
+
+/* texto */
+.concepto-card h3 {
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+.concepto-card p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+/* =========================
+   HOVER 3D
+========================= */
+
+.concepto-card:hover {
+    transform: rotateX(8deg) rotateY(-8deg) translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* =========================
+   REVEAL ANIMATION
+========================= */
+
+.concepto-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.6s ease;
+}
+
+/* =========================
+   GLOW DINÁMICO
+========================= */
+
+.concepto-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+
+    background: radial-gradient(
+        600px circle at var(--x, 50%) var(--y, 50%),
+        rgba(230, 31, 132, 0.25),
+        transparent 40%
+    );
+
+    opacity: var(--glow-opacity, 0);
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+/* =========================
+   SEPARACIÓN SECCIONES
+========================= */
+
+
+#catapultazo {
+    margin-bottom: 220px;
+}
+
+#como-es {
+    margin-top: 120px;
+}
+
+/* =========================
+   PÁGINA EXPERIMENTAL
+========================= */
+
+.experimental {
+
+
+    background: radial-gradient(
+        circle at center,
+        rgba(230,31,132,0.12),
+        rgba(0,0,0,1) 70%
+    );
+}
+
+.titulo-experimental {
+    font-size: clamp(3rem, 6vw, 6rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #E61F84;
+    margin-bottom: 20px;
+}
+
+.texto-experimental {
+    max-width: 600px;
+    font-size: 1.1rem;
+    color: #B8B1D8;
+    line-height: 1.8;
+}
+
+/* =========================
+   EXPERIMENTAL LAYOUT
+========================= */
+
+.experimental {
+    min-height: 100vh;
+    padding: 140px 8vw;
+    display: flex;
+    align-items: center;
+}
+
+.experimental-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    width: 100%;
+    align-items: center;
+}
+
+/* IZQUIERDA (TÍTULO) */
+.experimental-left {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.titulo-experimental {
+    font-size: clamp(2rem, 3vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #E61F84;
+    text-align: left;
+    max-width: 300px;
+}
+
+/* DERECHA (CONTENIDO) */
+.experimental-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 500px;
+}
+
+.texto-experimental {
+    font-size: 1.1rem;
+    color: #B8B1D8;
+    line-height: 1.8;
+}
+
+/* BOTÓN */
+.btn-experimental {
+    display: inline-block;
+    padding: 16px 28px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+
+    background: rgba(230, 31, 132, 0.15);
+    border: 1px solid rgba(230, 31, 132, 0.4);
+    color: #E61F84;
+
+    transition: 0.3s;
+    width: fit-content;
+}
+
+.btn-experimental:hover {
+    transform: translateY(-3px);
+    background: rgba(230, 31, 132, 0.25);
+}
+
+/* =========================
+   COMO ES
+========================= */
+
+.como-es{
+    position:relative;
+    min-height:100vh;
+    padding:180px 8vw;
+    overflow:hidden;
+}
+
+/* =========================
+   PARALLAX LAYERS
+========================= */
+
+.parallax-layer{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.fondo{
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(230,31,132,.12),
+            transparent 60%
+        );
+}
+
+.medio{
+    backdrop-filter:blur(20px);
+}
+
+.frente{
+    z-index:2;
+}
+
+/* =========================
+   IMAGEN IMPACTO
+========================= */
+
+.impacto-imagen{
+    width:100%;
+    height:450px;
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(230,31,132,.3),
+            rgba(195,209,4,.3)
+        );
+
+    margin-bottom:40px;
+}
+
+/* =========================
+   RESPONSIVE EXTRA
+========================= */
+
+@media (max-width:768px){
+
+    .conceptos-grid{
+        grid-template-columns:1fr;
+    }
+
+    .impacto-layout{
+        grid-template-columns:1fr;
+    }
+
+    .experimental-layout{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .catapultazo-editorial{
+        grid-template-columns:1fr;
+        gap:50px;
+    }
+
+    .catapultazo-texto{
+        margin-top:0;
+    }
+
+    .catapultazo-titulo{
+        justify-content:flex-start;
+    }
+
+}
+
+/* =========================
+   PIX
+========================= */
+
+.pix{
+    min-height:100vh;
+
+    padding:180px 8vw;
+
+    display:flex;
+    align-items:center;
+
+    position:relative;
+}
+
+.pix-layout{
+    width:100%;
+    max-width:1400px;
+
+    margin:0 auto;
+
+    display:grid;
+    grid-template-columns:45% 55%;
+
+    gap:80px;
+
+    align-items:center;
+}
+
+/* TITULO */
+
+.pix-titulo{
+    font-size:clamp(4rem,6vw,7rem);
+
+    color:#C3D104;
+
+    font-weight:900;
+
+    text-transform:uppercase;
+
+    line-height:.9;
+
+    margin-bottom:30px;
+}
+
+/* TEXTO */
+
+.pix-texto{
+    color:#B8B1D8;
+
+    font-size:1.1rem;
+
+    line-height:1.8;
+
+    max-width:500px;
+}
+
+/* PLACEHOLDER */
+
+.pix-placeholder{
+
+    width:100%;
+
+    height:600px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(12px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#E61F84;
+
+    font-size:1.2rem;
+    font-weight:800;
+
+    letter-spacing:3px;
+
+    text-transform:uppercase;
+}
+
+/* RESPONSIVE */
+
+@media (max-width:900px){
+
+    .pix-layout{
+        grid-template-columns:1fr;
+        gap:50px;
+    }
+
+    .pix-placeholder{
+        height:350px;
+    }
+
+}
+
+.catapultazo-imagen{
+    min-height:600px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.catapultazo-vector{
+    width:100%;
+    max-width:700px;
+    height:auto;
+
+    display:block;
+}
+
+/* DETALLE OCULTO */
+
+.concepto-detalle{
+
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    transition:
+        max-height .5s ease,
+        opacity .3s ease;
+
+    margin-top:0;
+}
+
+.concepto-card.activa .concepto-detalle{
+
+    max-height:500px;
+
+    opacity:1;
+
+    margin-top:15px;
+}
+
+/* ESTADO ABIERTO */
+
+.concepto-card.activa .concepto-detalle{
+
+    max-height:300px;
+
+    opacity:1;
+
+    margin-top:15px;
+}
+
+/* CURSOR */
+
+.concepto-card{
+
+    cursor:pointer;
+}
+
+/* EFECTO VISUAL */
+
+.concepto-card.activa{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+        0 0 30px rgba(230,31,132,.2);
+}
+
+.pix-container {
+    width: 100%;
+}
+
+.pix-card {
+    background: rgba(255,255,255,0.06);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(12px);
+}
+
+.pix-steps {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pix-step {
+    padding: 10px;
+    border-left: 3px solid #fff;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+}
+
+/* =========================
+   TIPOGRAFÍA SISTEMA UNIFICADO (PIX STYLE REAL FIX)
+========================= */
+
+/* BASE GLOBAL */
+body{
+    font-family: 'Inter', sans-serif;
+}
+
+/* =========================
+   TIPOGRAFÍA SISTEMA UNIFICADO
+========================= */
+
+/* BASE */
+body{
+    font-family: 'Inter', sans-serif;
+}
+
+/* =========================
+   TÍTULO PRINCIPAL (ÚNICO)
+========================= */
+
+.hero h1{
+    font-size: clamp(3.2rem, 7vw, 6.2rem);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+}
+
+/* =========================
+   TÍTULOS SECUNDARIOS (IGUALES TODOS)
+========================= */
+
+h2,
+h3{
+    font-size: 2rem;      /* 👈 mismo tamaño siempre */
+    font-weight: 900;     /* 👈 mismo grosor siempre */
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+}
+
+/* =========================
+   COLORES POR SECCIÓN
+   (solo cambia color, no tamaño)
+========================= */
+
+/* HERO / GENERAL ACCENT */
+.hero h1{
+    color: white;
+}
+
+/* CATAPULTAZO */
+.catapultazo h2,
+.catapultazo h3{
+    color: #C3D104;
+}
+
+/* IMPACTO */
+.impacto h2,
+.impacto h3{
+    color: #E61F84;
+}
+
+/* CONCEPTOS */
+.concepto-card h3{
+    color: #C3D104;
+}
+
+/* EXPERIMENTAL */
+.experimental h2,
+.experimental h3{
+    color: #E61F84;
+}
+
+/* PIX */
+.pix h2,
+.pix h3{
+    color: #C3D104;
+}
+
+/* =========================
+   PÁRRAFOS UNIFICADOS
+========================= */
+
+p,
+.hero p,
+.pix-texto,
+.impacto-texto,
+.impacto-texto-izquierda p,
+.concepto-resumen,
+.concepto-detalle p,
+.texto-experimental,
+.catapultazo-texto p{
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.75;
+    margin: 0;
+}
