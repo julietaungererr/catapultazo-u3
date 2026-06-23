@@ -1264,3 +1264,249 @@ p,
     line-height: 1.75;
     margin: 0;
 }
+
+/* =========================
+   FOOTER - VERSION COMPACTA / UI DENSO
+========================= */
+
+.footer {
+    position: relative;
+    width: 100%;
+    padding: 70px 8vw 25px;
+
+    color: #B8B1D8;
+
+    background: rgba(10, 8, 18, 0.72);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-top: 1px solid rgba(184, 177, 216, 0.15);
+
+    overflow: hidden;
+}
+
+/* glow más “contenido”, menos vacío */
+.footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background:
+        radial-gradient(circle at 20% 0%, rgba(230, 31, 132, 0.22), transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(195, 209, 4, 0.14), transparent 45%),
+        radial-gradient(circle at 50% 100%, rgba(184, 177, 216, 0.10), transparent 55%);
+
+    pointer-events: none;
+}
+
+/* =========================
+   GRID PRINCIPAL MÁS DENSO
+========================= */
+
+.footer-content {
+    position: relative;
+    z-index: 2;
+
+    display: grid;
+    grid-template-columns: 1.5fr 2fr 2fr;
+    gap: 40px;
+
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* =========================
+   BRAND MÁS RICO VISUALMENTE
+========================= */
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding-right: 20px;
+    border-right: 1px solid rgba(184, 177, 216, 0.12);
+}
+
+.footer-logo {
+    font-size: 2rem;
+    letter-spacing: 3px;
+
+    color: #fff;
+
+    text-shadow:
+        0 0 12px rgba(230, 31, 132, 0.5),
+        0 0 30px rgba(195, 209, 4, 0.12);
+}
+
+.footer-tagline {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    opacity: 0.75;
+}
+
+/* mini “estado del sistema” */
+.footer-status {
+    margin-top: 10px;
+
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+
+    color: rgba(195, 209, 4, 0.85);
+}
+
+.footer-status::before {
+    content: "● ";
+    color: #C3D104;
+}
+
+/* =========================
+   DESCRIPCIÓN MÁS COMPACTA
+========================= */
+
+.footer-description {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-description p {
+    font-size: 0.9rem;
+    line-height: 1.55;
+
+    color: rgba(184, 177, 216, 0.85);
+}
+
+/* mini bloques tipo “info chips” */
+.footer-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.footer-chip {
+    font-size: 0.75rem;
+
+    padding: 6px 10px;
+
+    border: 1px solid rgba(184, 177, 216, 0.2);
+    border-radius: 999px;
+
+    color: rgba(184, 177, 216, 0.8);
+
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* =========================
+   COLUMNAS MÁS “UI PANEL”
+========================= */
+
+.footer-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+/* panel estilo tarjeta */
+.footer-column {
+    padding: 12px 14px;
+
+    border: 1px solid rgba(184, 177, 216, 0.12);
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.footer-column h4 {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    margin-bottom: 10px;
+
+    color: rgba(184, 177, 216, 0.9);
+
+    border-bottom: 1px solid rgba(184, 177, 216, 0.12);
+    padding-bottom: 6px;
+}
+
+/* links más “densos” */
+.footer-column a {
+    display: block;
+
+    font-size: 0.85rem;
+    text-decoration: none;
+
+    color: rgba(184, 177, 216, 0.7);
+
+    margin-bottom: 6px;
+
+    transition: all 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: #E61F84;
+    transform: translateX(4px);
+}
+
+.footer-column p {
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-bottom: 6px;
+
+    color: rgba(184, 177, 216, 0.7);
+
+    /* igualar sensación a links */
+    letter-spacing: 0.2px;
+    line-height: 1.4;
+}
+
+/* opcional: que el bloque de créditos se sienta “listado UI” */
+.footer-column:nth-child(3) p {
+    display: block;
+    padding-left: 2px;
+}
+
+/* =========================
+   FOOTER BOTTOM MÁS INTEGRADO
+========================= */
+
+.footer-bottom {
+    margin-top: 40px;
+    padding-top: 15px;
+
+    text-align: center;
+
+    border-top: 1px solid rgba(184, 177, 216, 0.12);
+}
+
+.footer-bottom p {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+
+    opacity: 0.6;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-brand {
+        border-right: none;
+        border-bottom: 1px solid rgba(184, 177, 216, 0.12);
+        padding-bottom: 20px;
+    }
+
+    .footer-meta {
+        grid-template-columns: 1fr;
+    }
+}
