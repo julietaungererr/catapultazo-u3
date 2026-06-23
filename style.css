@@ -50,13 +50,13 @@ body::after{
    THREEJS CANVAS
 ========================= */
 
-#bg{
-    position:fixed;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index:-3;
-    pointer-events:none;
+#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
 /* =========================
@@ -966,29 +966,41 @@ footer p{
    PIX
 ========================= */
 
-.pix{
-    min-height:100vh;
-
-    padding:180px 8vw;
-
-    display:flex;
-    align-items:center;
-
-    position:relative;
+.pix {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    padding: 120px 10%;
+    color: white;
+    background: transparent;
 }
+
+.pix-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    display: block;
+    min-height: 400px;
+}
+
 
 .pix-layout{
     width:100%;
     max-width:1400px;
-
     margin:0 auto;
 
-    display:grid;
-    grid-template-columns:45% 55%;
+    display:flex;
+    flex-direction:column;
+    gap:40px;
 
-    gap:80px;
+    align-items:flex-start;
+}
 
-    align-items:center;
+.pix-header{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    max-width:700px;
 }
 
 /* TITULO */

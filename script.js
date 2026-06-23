@@ -395,11 +395,26 @@ conceptos.forEach(card => {
 
 });
 
+function safeBase64Decode(str) {
+    try {
+        return atob(str);
+    } catch (e) {
+        console.error("Base64 inválido:", e);
+        return null;
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const container = document.getElementById("pix-container");
-    const raw = document.getElementById("pix-data").textContent;
+    const dataEl = document.getElementById("pix-data");
 
+    if (!container || !dataEl) {
+        console.warn("PIX: faltan elementos HTML");
+        return;
+    }
+
+    const raw = dataEl.textContent.trim();
     const decoded = safeBase64Decode(raw);
 
     if (!decoded) {
@@ -408,7 +423,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
-
         const data = JSON.parse(decoded);
 
         container.innerHTML = "";
@@ -417,11 +431,12 @@ document.addEventListener("DOMContentLoaded", () => {
         card.className = "pix-card";
 
         const title = document.createElement("h3");
-        title.textContent = data.title;
-        card.appendChild(title);
+        title.textContent = data.title || "Sin título";
 
         const desc = document.createElement("p");
-        desc.textContent = data.description;
+        desc.textContent = data.description || "Sin descripción";
+
+        card.appendChild(title);
         card.appendChild(desc);
 
         container.appendChild(card);
@@ -430,5 +445,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("JSON ERROR:", err);
         container.innerHTML = "<p>Error: JSON inválido</p>";
     }
-
 });
