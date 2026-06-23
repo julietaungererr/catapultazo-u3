@@ -264,15 +264,7 @@ nav a:hover{
     padding:0;                
     border-radius:0;
 
-    color:#C3D104;            
-
-    font-size:clamp(1.8rem, 2.5vw, 2.6rem);
-    font-weight:900;
-
-    letter-spacing:-0.03em;
-    line-height:1.05;
-
-    box-shadow:none;          
+    color:#C3D104;                
 }
 
 .catapultazo-imagen{
@@ -318,8 +310,7 @@ nav a:hover{
     display:grid;
     grid-template-columns:1fr 1fr;
     background:#C3D104;
-
-    align-items:start;
+    align-items: center; 
 }
 
 /* ambas columnas */
@@ -381,20 +372,28 @@ nav a:hover{
 }
 
 /* IMAGEN */
-.impacto-cuadro{
-    width:400px;
-    height:400px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+.impacto-cuadro {
+    width: 100%;
+    max-width: 650px;
+
+    aspect-ratio: 16 / 10;  /* 👈 clave: formato rectangular */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+    border-radius: 18px; /* opcional */
 }
 
-.impacto-caja{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
+.impacto-caja {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;   /* llena el rectángulo sin deformarse */
+    display: block;
 }
+
 /* =========================
    FOOTER
 ========================= */
@@ -455,7 +454,6 @@ footer p{
 }
 
 .titulo-seccion {
-    font-size: 3rem;
     letter-spacing: 2px;
     margin-bottom: 10px;
 }
@@ -794,9 +792,7 @@ footer p{
 }
 
 .titulo-experimental {
-    font-size: clamp(3rem, 6vw, 6rem);
-    font-weight: 900;
-    letter-spacing: 3px;
+
     color: #E61F84;
     margin-bottom: 20px;
 }
@@ -834,9 +830,7 @@ footer p{
 }
 
 .titulo-experimental {
-    font-size: clamp(2rem, 3vw, 3.5rem);
-    font-weight: 900;
-    letter-spacing: 3px;
+
     color: #E61F84;
     text-align: left;
     max-width: 300px;
@@ -1000,11 +994,8 @@ footer p{
 /* TITULO */
 
 .pix-titulo{
-    font-size:clamp(4rem,6vw,7rem);
 
     color:#C3D104;
-
-    font-weight:900;
 
     text-transform:uppercase;
 
@@ -1184,14 +1175,17 @@ body{
 }
 
 /* =========================
-   TÍTULO PRINCIPAL (ÚNICO)
+   TODOS LOS TÍTULOS SECUNDARIOS
+   (MISMO TAMAÑO + GROSOR)
 ========================= */
 
-.hero h1{
-    font-size: clamp(3.2rem, 7vw, 6.2rem);
+h2,
+h3{
+    font-size: 2rem;
     font-weight: 900;
-    letter-spacing: -0.05em;
-    line-height: 0.95;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
 }
 
 /* =========================
@@ -1200,7 +1194,7 @@ body{
 
 h2,
 h3{
-    font-size: 2rem;      /* 👈 mismo tamaño siempre */
+    font-size: 3rem;      /* 👈 mismo tamaño siempre */
     font-weight: 900;     /* 👈 mismo grosor siempre */
     letter-spacing: -0.03em;
     line-height: 1.1;
@@ -1212,38 +1206,35 @@ h3{
    (solo cambia color, no tamaño)
 ========================= */
 
-/* HERO / GENERAL ACCENT */
-.hero h1{
-    color: white;
-}
+/* HERO NO TOCA H2/H3 */
 
 /* CATAPULTAZO */
 .catapultazo h2,
 .catapultazo h3{
-    color: #C3D104;
+    color:#C3D104;
 }
 
 /* IMPACTO */
 .impacto h2,
 .impacto h3{
-    color: #E61F84;
-}
-
-/* CONCEPTOS */
-.concepto-card h3{
-    color: #C3D104;
+    color:#E61F84;
 }
 
 /* EXPERIMENTAL */
 .experimental h2,
 .experimental h3{
-    color: #E61F84;
+    color:#E61F84;
 }
 
 /* PIX */
 .pix h2,
 .pix h3{
-    color: #C3D104;
+    color:#C3D104;
+}
+
+/* CONCEPTOS (cards) */
+.concepto-card h3{
+    color:#C3D104;
 }
 
 /* =========================
