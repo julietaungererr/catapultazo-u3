@@ -1,6 +1,92 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
 //////////////////////////////////////////////////
+// AUDIO 🌊 RELAJANTE (MAR + DRONE + RUIDO)
+//////////////////////////////////////////////////
+
+let audioCtx = null;
+let masterGain;
+let droneOsc;
+let droneGain;
+
+let noiseNode;
+let noiseGain;
+let noiseFilter;
+
+function initAudio(){
+
+    if(audioCtx) return;
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.3;
+
+    //////////////////////////////////////////////////
+    // DRONE SUAVE (BASE)
+    //////////////////////////////////////////////////
+
+    droneOsc = audioCtx.createOscillator();
+    droneOsc.type = "sine";
+    droneOsc.frequency.value = 55;
+
+    droneGain = audioCtx.createGain();
+    droneGain.gain.value = 0.08;
+
+    const droneFilter = audioCtx.createBiquadFilter();
+    droneFilter.type = "lowpass";
+    droneFilter.frequency.value = 500;
+
+    droneOsc.connect(droneGain);
+    droneGain.connect(droneFilter);
+    droneFilter.connect(masterGain);
+
+    droneOsc.start();
+
+    //////////////////////////////////////////////////
+    // RUIDO MARINO
+    //////////////////////////////////////////////////
+
+    const bufferSize = audioCtx.sampleRate * 2;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const output = buffer.getChannelData(0);
+
+    for(let i=0;i<bufferSize;i++){
+        output[i] = (Math.random()*2-1) * 0.1;
+    }
+
+    noiseNode = audioCtx.createBufferSource();
+    noiseNode.buffer = buffer;
+    noiseNode.loop = true;
+
+    noiseGain = audioCtx.createGain();
+    noiseGain.gain.value = 0.02;
+
+    noiseFilter = audioCtx.createBiquadFilter();
+    noiseFilter.type = "lowpass";
+    noiseFilter.frequency.value = 800;
+
+    noiseNode.connect(noiseGain);
+    noiseGain.connect(noiseFilter);
+    noiseFilter.connect(masterGain);
+
+    noiseNode.start();
+
+    masterGain.connect(audioCtx.destination);
+}
+
+window.addEventListener("click", async () => {
+
+    if(!audioCtx){
+        initAudio();
+    }
+
+    if(audioCtx.state !== "running"){
+        await audioCtx.resume();
+    }
+});
+
+//////////////////////////////////////////////////
 // SCENE
 //////////////////////////////////////////////////
 
@@ -34,55 +120,19 @@ const renderer = new THREE.WebGLRenderer({
     alpha: true
 });
 
-renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
-);
-
-renderer.setPixelRatio(
-    window.devicePixelRatio
-);
-
-document.body.appendChild(
-    renderer.domElement
-);
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
 
 //////////////////////////////////////////////////
 // LIGHTS
 //////////////////////////////////////////////////
 
-scene.add(
-    new THREE.AmbientLight(
-        0xffffff,
-        2.5
-    )
-);
+scene.add(new THREE.AmbientLight(0xffffff, 2.5));
 
-const sun =
-    new THREE.DirectionalLight(
-        0xffffff,
-        2
-    );
-
-sun.position.set(
-    50,
-    100,
-    50
-);
-
+const sun = new THREE.DirectionalLight(0xffffff, 2);
+sun.position.set(50, 100, 50);
 scene.add(sun);
-
-//////////////////////////////////////////////////
-// COLORS
-//////////////////////////////////////////////////
-
-const palette = [
-
-    new THREE.Color("#B8B1D8"),
-    new THREE.Color("#E61F84"),
-    new THREE.Color("#C3D104")
-
-];
 
 //////////////////////////////////////////////////
 // WORLD
@@ -95,139 +145,65 @@ scene.add(world);
 // GRID
 //////////////////////////////////////////////////
 
-const SIZE = 34;
+const palette = [
+    new THREE.Color("#B8B1D8"),
+    new THREE.Color("#E61F84"),
+    new THREE.Color("#C3D104")
+];
 
-const geometry =
-    new THREE.BoxGeometry(
-        1.02,
-        1,
-        1.02
-    );
+const SIZE = 34;
+const geometry = new THREE.BoxGeometry(1.02, 1, 1.02);
 
 const cubes = [];
 
-for(let x=0;x<SIZE;x++){
+for(let x=0; x<SIZE; x++){
+for(let z=0; z<SIZE; z++){
 
-    for(let z=0;z<SIZE;z++){
-
-        const cube =
-            new THREE.Mesh(
-
-                geometry,
-
-                new THREE.MeshStandardMaterial({
-
-                    color:
-                        palette[
-                            Math.floor(
-                                Math.random() *
-                                palette.length
-                            )
-                        ]
-
-                })
-
-            );
-
-        cube.position.set(
-            x - SIZE/2,
-            0.5,
-            z - SIZE/2
-        );
-
-        world.add(cube);
-
-        cubes.push({
-
-            mesh:cube,
-
-            x,
-            z,
-
-            originX:
-                x - SIZE/2,
-
-            originZ:
-                z - SIZE/2,
-
-            height:1,
-
-vx:0,
-vy:0,
-vz:0,
-
-shock:0,
-
-detached:false 
-
-        });
-
-    }
-
-}
-
-//////////////////////////////////////////////////
-// CURSOR
-//////////////////////////////////////////////////
-
-const mouse = {
-    x:999,
-    y:999
-};
-
-window.addEventListener(
-    "mousemove",
-    e=>{
-
-        mouse.x =
-            (e.clientX /
-            window.innerWidth) * 2 - 1;
-
-        mouse.y =
-            -(e.clientY /
-            window.innerHeight) * 2 + 1;
-
-        const cursor =
-            document.querySelector(
-                ".cursor"
-            );
-
-        if(cursor){
-
-            cursor.style.left =
-                e.clientX + "px";
-
-            cursor.style.top =
-                e.clientY + "px";
-
-        }
-
-    }
-);
-
-//////////////////////////////////////////////////
-// RAYCAST
-//////////////////////////////////////////////////
-
-const raycaster =
-    new THREE.Raycaster();
-
-const plane =
-    new THREE.Plane(
-        new THREE.Vector3(0,1,0),
-        0
+    const mesh = new THREE.Mesh(
+        geometry,
+        new THREE.MeshStandardMaterial({
+            color: palette[Math.floor(Math.random()*palette.length)]
+        })
     );
 
-const point =
-    new THREE.Vector3();
+    mesh.position.set(x - SIZE/2, 0.5, z - SIZE/2);
+    world.add(mesh);
+
+    cubes.push({
+        mesh,
+        x,
+        z,
+        originX: x - SIZE/2,
+        originZ: z - SIZE/2,
+        height: 1,
+        vx:0, vy:0, vz:0,
+        shock:0,
+        detached:false
+    });
+
+}}
 
 //////////////////////////////////////////////////
-// DODECAHEDRON
+// MOUSE
+//////////////////////////////////////////////////
+
+const mouse = { x:999, y:999 };
+
+window.addEventListener("mousemove", e=>{
+    mouse.x = (e.clientX / innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+});
+
+const raycaster = new THREE.Raycaster();
+const plane = new THREE.Plane(new THREE.Vector3(0,1,0),0);
+const point = new THREE.Vector3();
+
+//////////////////////////////////////////////////
+// PROJECTILE
 //////////////////////////////////////////////////
 
 let projectile = null;
 let projectileVelocity = 0;
-
 let impactX = 0;
 let impactZ = 0;
 
@@ -235,148 +211,107 @@ function launchDodecahedron(){
 
     if(projectile) return;
 
-    raycaster.setFromCamera(
-        mouse,
-        camera
-    );
-
-    raycaster.ray.intersectPlane(
-        plane,
-        point
-    );
+    raycaster.setFromCamera(mouse, camera);
+    raycaster.ray.intersectPlane(plane, point);
 
     impactX = point.x;
     impactZ = point.z;
 
-    projectile =
-        new THREE.Mesh(
-
-            new THREE.DodecahedronGeometry(
-                5
-            ),
-
-            new THREE.MeshStandardMaterial({
-
-                color:"#E61F84",
-
-                emissive:"#E61F84",
-
-                emissiveIntensity:1
-
-            })
-
-        );
-
-    const glow =
-        new THREE.PointLight(
-            "#E61F84",
-            15,
-            40
-        );
-
-    projectile.add(glow);
-
-    projectile.position.set(
-        impactX,
-        90,
-        impactZ
+    projectile = new THREE.Mesh(
+        new THREE.DodecahedronGeometry(5),
+        new THREE.MeshStandardMaterial({
+            color:"#E61F84",
+            emissive:"#E61F84",
+            emissiveIntensity:1
+        })
     );
 
+    projectile.add(new THREE.PointLight("#E61F84", 15, 40));
+    projectile.position.set(impactX, 90, impactZ);
+
     projectileVelocity = 0;
-
     scene.add(projectile);
-
 }
 
-window.addEventListener(
-    "click",
-    launchDodecahedron
-);
+window.addEventListener("click", launchDodecahedron);
 
 //////////////////////////////////////////////////
-// RESET
+// RESET (ARREGLADO 100%)
 //////////////////////////////////////////////////
 
 function resetWorld(){
 
-    cubes.forEach(cube=>{
+    console.log("RESET OK");
 
-        if(!cube.mesh.parent){
+    cubes.forEach(c=>{
 
-            world.add(cube.mesh);
+        c.mesh.position.set(c.originX, 0.5, c.originZ);
+        c.mesh.scale.set(1,1,1);
+        c.mesh.rotation.set(0,0,0);
 
-        }
+        c.vx = 0;
+        c.vy = 0;
+        c.vz = 0;
 
-        cube.detached = false;
-
-        cube.vx = 0;
-        cube.vy = 0;
-        cube.vz = 0;
-
-        cube.height = 1;
-
-        cube.mesh.rotation.set(
-            0,
-            0,
-            0
-        );
-
-        cube.mesh.scale.set(
-            1,
-            1,
-            1
-        );
-
-        cube.mesh.position.set(
-
-            cube.originX,
-
-            0.5,
-
-            cube.originZ
-
-        );
-
+        c.height = 1;
+        c.shock = 0;
+        c.detached = false;
     });
 
     if(projectile){
-
-        camera.lookAt(
-    projectile.position.x,
-    0,
-    projectile.position.z
-);
-
-        scene.remove(
-            projectile
-        );
-
+        scene.remove(projectile);
         projectile = null;
-
     }
-
 }
 
-document
-    .getElementById(
-        "resetBtn"
-    )
-    .addEventListener(
-        "click",
-        resetWorld
+//////////////////////////////////////////////////
+// AUDIO UPDATE 🌊
+//////////////////////////////////////////////////
+
+function updateAudio(){
+
+    if(!audioCtx) return;
+
+    let energy = 0;
+
+    for(const c of cubes){
+        energy += Math.max(c.height - 1, 0);
+    }
+
+    energy /= cubes.length;
+
+    energy = Math.pow(energy * 3, 1.1);
+
+    const freq = 40 + energy * 25;
+    const amp = Math.min(energy * 0.2, 0.15);
+
+    droneOsc.frequency.setTargetAtTime(
+        freq,
+        audioCtx.currentTime,
+        0.3
     );
 
+    droneGain.gain.setTargetAtTime(
+        amp,
+        audioCtx.currentTime,
+        0.4
+    );
+
+    if(noiseGain){
+        noiseGain.gain.setTargetAtTime(
+            0.02 + energy * 0.06,
+            audioCtx.currentTime,
+            0.5
+        );
+    }
+}
+
 //////////////////////////////////////////////////
-// HELPERS
+// HELP
 //////////////////////////////////////////////////
 
 function lerpColor(a,b,t){
-
-    return a.clone().lerp(
-        b,
-        t
-    );
-
+    return a.clone().lerp(b,t);
 }
 
 //////////////////////////////////////////////////
@@ -385,281 +320,134 @@ function lerpColor(a,b,t){
 
 function animate(time=0){
 
-    requestAnimationFrame(
-        animate
-    );
+    requestAnimationFrame(animate);
 
-    const t =
-        time * 0.001;
-
-    //////////////////////////////////////////////////
-    // CAMERA ORBIT
-    //////////////////////////////////////////////////
+    const t = time * 0.001;
 
     const radius = 34;
 
-    camera.position.x =
-        Math.cos(
-            t * 0.12
-        ) * radius;
-
-    camera.position.z =
-        Math.sin(
-            t * 0.12
-        ) * radius;
-
+    camera.position.x = Math.cos(t*0.12)*radius;
+    camera.position.z = Math.sin(t*0.12)*radius;
     camera.position.y = 45;
-
     camera.lookAt(0,0,0);
 
-    //////////////////////////////////////////////////
-    // CURSOR POINT
-    //////////////////////////////////////////////////
-
-    raycaster.setFromCamera(
-        mouse,
-        camera
-    );
-
-    raycaster.ray.intersectPlane(
-        plane,
-        point
-    );
-
-    //////////////////////////////////////////////////
-    // PROJECTILE
-    //////////////////////////////////////////////////
+    raycaster.setFromCamera(mouse,camera);
+    raycaster.ray.intersectPlane(plane,point);
 
     if(projectile){
 
         projectileVelocity += 0.02;
+        projectile.position.y -= projectileVelocity;
 
-        projectile.position.y -=
-            projectileVelocity;
+        projectile.rotation.x += 0.15;
+        projectile.rotation.y += 0.12;
+        projectile.rotation.z += 0.1;
 
-        projectile.rotation.x +=
-    0.15;
+        if(projectile.position.y <= 4){
 
-projectile.rotation.y +=
-    0.12;
+            cubes.forEach(c=>{
 
-projectile.rotation.z +=
-    0.10;
+                const dx = c.mesh.position.x - impactX;
+                const dz = c.mesh.position.z - impactZ;
 
-        if(
-            projectile.position.y <= 4
-        ){
-
-            cubes.forEach(cube=>{
-
-                const dx =
-                    cube.mesh.position.x -
-                    impactX;
-
-                const dz =
-                    cube.mesh.position.z -
-                    impactZ;
-
-                const dist =
-                    Math.sqrt(
-                        dx*dx +
-                        dz*dz
-                    );
+                const dist = Math.sqrt(dx*dx + dz*dz);
 
                 if(dist < 14){
 
-    const force =
-        (14 - dist) * 0.45;
+                    const force = (14 - dist) * 0.45;
 
-    cube.vx =
-        dx * force * 0.25;
+                    c.vx = dx * force * 0.25;
+                    c.vz = dz * force * 0.25;
+                    c.vy = 2 + Math.random() * 4;
+                    c.shock = force * 6;
 
-    cube.vz =
-        dz * force * 0.25;
-
-    cube.vy =
-        2 +
-        Math.random() * 4;
-
-    cube.shock = force * 6;
-
-    if(Math.random() > 0.7){
-
-        cube.detached = true;
-
-    }
-
-}
-
+                    if(Math.random() > 0.7) c.detached = true;
+                }
             });
 
-            scene.remove(
-                projectile
-            );
-
+            scene.remove(projectile);
             projectile = null;
-
         }
-
     }
 
-    //////////////////////////////////////////////////
-    // CUBES
-    //////////////////////////////////////////////////
+    cubes.forEach(c=>{
 
-    cubes.forEach(cube=>{
+        const m = c.mesh;
 
-        const mesh =
-            cube.mesh;
+        if(c.detached){
 
-        if(cube.detached){
+            c.vy -= 0.08;
 
-            cube.vy -= 0.08;
+            m.position.x += c.vx;
+            m.position.y += c.vy;
+            m.position.z += c.vz;
 
-            mesh.position.x +=
-                cube.vx;
-
-            mesh.position.y +=
-                cube.vy;
-
-            mesh.position.z +=
-                cube.vz;
-
-            mesh.rotation.x +=
-                0.05;
-
-            mesh.rotation.y +=
-                0.05;
-
+            m.rotation.x += 0.05;
+            m.rotation.y += 0.05;
             return;
-
         }
 
-        const dx =
-            mesh.position.x -
-            point.x;
+        const dx = m.position.x - point.x;
+        const dz = m.position.z - point.z;
 
-        const dz =
-            mesh.position.z -
-            point.z;
+        const dist = Math.sqrt(dx*dx + dz*dz);
 
-        const dist =
-            Math.sqrt(
-                dx*dx +
-                dz*dz
-            );
+        let target = Math.max(1, 12 - dist);
+        target += Math.sin(t*2 + c.x*0.3 + c.z*0.3)*2;
 
-        let target =
-            Math.max(
-                1,
-                12 - dist
-            );
+        c.height += (target - c.height)*0.08;
+        c.shock *= 0.92;
 
-        target +=
-            Math.sin(
-                t*2 +
-                cube.x*0.3 +
-                cube.z*0.3
-            ) * 2;
+        const h = c.height + c.shock;
 
-        cube.height +=
-            (
-                target -
-                cube.height
-            ) * 0.08;
+        m.scale.y = h;
+        m.position.y = h/2;
 
-            cube.shock *= 0.92;
+        const n = Math.min(c.height/12,1);
 
-const fractureHeight =
-    cube.height +
-    cube.shock;
+        const col =
+            n < 0.5
+            ? lerpColor(palette[0],palette[1],n*2)
+            : lerpColor(palette[1],palette[2],(n-0.5)*2);
 
-mesh.scale.y =
-    fractureHeight;
-
-mesh.position.y =
-    fractureHeight / 2;
-
-        const normalized =
-            Math.min(
-                cube.height / 12,
-                1
-            );
-
-        let color;
-
-        if(normalized < 0.5){
-
-            color =
-                lerpColor(
-                    palette[0],
-                    palette[1],
-                    normalized * 2
-                );
-
-        }else{
-
-            color =
-                lerpColor(
-                    palette[1],
-                    palette[2],
-                    (normalized - 0.5) * 2
-                );
-
-        }
-
-        mesh.material.color.copy(
-            color
-        );
-
+        m.material.color.copy(col);
     });
 
-    //////////////////////////////////////////////////
-    // WORLD ROTATION
-    //////////////////////////////////////////////////
+    updateAudio();
 
-    world.rotation.y +=
-        0.0006;
-
-    renderer.render(
-        scene,
-        camera
-    );
-
+    world.rotation.y += 0.0006;
+    renderer.render(scene,camera);
 }
 
 animate();
 
 //////////////////////////////////////////////////
+// RESET BUTTON SAFE
+//////////////////////////////////////////////////
+
+window.addEventListener("load", () => {
+
+    const btn = document.getElementById("resetBtn");
+
+    if(btn){
+        btn.addEventListener("click", resetWorld);
+    } else {
+        console.warn("No existe resetBtn en HTML");
+    }
+});
+
+//////////////////////////////////////////////////
 // RESIZE
 //////////////////////////////////////////////////
 
-window.addEventListener(
-    "resize",
-    ()=>{
+window.addEventListener("resize",()=>{
+    aspect = innerWidth/innerHeight;
 
-        aspect =
-            window.innerWidth /
-            window.innerHeight;
+    camera.left = (-frustum*aspect)/2;
+    camera.right = (frustum*aspect)/2;
+    camera.top = frustum/2;
+    camera.bottom = -frustum/2;
 
-        camera.left =
-            (-frustum * aspect) / 2;
-
-        camera.right =
-            (frustum * aspect) / 2;
-
-        camera.top =
-            frustum / 2;
-
-        camera.bottom =
-            -frustum / 2;
-
-        camera.updateProjectionMatrix();
-
-        renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
-        );
-
-    }
-);
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+});
