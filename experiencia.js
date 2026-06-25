@@ -19,32 +19,61 @@ function initAudio(){
 
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0.3;
+    //////////////////////////////////////////////////
+    // MASTER + COMPRESOR (SALIDA FINAL)
+    //////////////////////////////////////////////////
+
+    const masterGain = audioCtx.createGain();
+    masterGain.gain.value = 1.0;
+
+    const compressor = audioCtx.createDynamicsCompressor();
+    compressor.threshold.value = -22;
+    compressor.knee.value = 28;
+    compressor.ratio.value = 8;
+    compressor.attack.value = 0.003;
+    compressor.release.value = 0.2;
+
+    compressor.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
 
     //////////////////////////////////////////////////
-    // DRONE SUAVE (BASE)
+    // DRONE PRINCIPAL (GRAVE)
     //////////////////////////////////////////////////
+
+    const droneFilter = audioCtx.createBiquadFilter();
+    droneFilter.type = "lowpass";
+    droneFilter.frequency.value = 500;
 
     droneOsc = audioCtx.createOscillator();
     droneOsc.type = "sine";
     droneOsc.frequency.value = 55;
 
     droneGain = audioCtx.createGain();
-    droneGain.gain.value = 0.08;
-
-    const droneFilter = audioCtx.createBiquadFilter();
-    droneFilter.type = "lowpass";
-    droneFilter.frequency.value = 500;
+    droneGain.gain.value = 0.35;
 
     droneOsc.connect(droneGain);
     droneGain.connect(droneFilter);
-    droneFilter.connect(masterGain);
+    droneFilter.connect(compressor);
 
     droneOsc.start();
 
     //////////////////////////////////////////////////
-    // RUIDO MARINO
+    // DRONE ARMÓNICO (PRESENCIA)
+    //////////////////////////////////////////////////
+
+    const droneOsc2 = audioCtx.createOscillator();
+    droneOsc2.type = "triangle";
+    droneOsc2.frequency.value = 110;
+
+    const droneGain2 = audioCtx.createGain();
+    droneGain2.gain.value = 0.08;
+
+    droneOsc2.connect(droneGain2);
+    droneGain2.connect(droneFilter);
+    droneOsc2.start();
+
+    //////////////////////////////////////////////////
+    // RUIDO MARINO (CONTROLADO)
     //////////////////////////////////////////////////
 
     const bufferSize = audioCtx.sampleRate * 2;
@@ -52,7 +81,7 @@ function initAudio(){
     const output = buffer.getChannelData(0);
 
     for(let i=0;i<bufferSize;i++){
-        output[i] = (Math.random()*2-1) * 0.1;
+        output[i] = (Math.random()*2-1) * 0.15;
     }
 
     noiseNode = audioCtx.createBufferSource();
@@ -60,19 +89,17 @@ function initAudio(){
     noiseNode.loop = true;
 
     noiseGain = audioCtx.createGain();
-    noiseGain.gain.value = 0.02;
+    noiseGain.gain.value = 0.18;
 
     noiseFilter = audioCtx.createBiquadFilter();
     noiseFilter.type = "lowpass";
-    noiseFilter.frequency.value = 800;
+    noiseFilter.frequency.value = 1200;
 
     noiseNode.connect(noiseGain);
     noiseGain.connect(noiseFilter);
-    noiseFilter.connect(masterGain);
+    noiseFilter.connect(compressor);
 
     noiseNode.start();
-
-    masterGain.connect(audioCtx.destination);
 }
 
 window.addEventListener("click", async () => {
@@ -108,16 +135,16 @@ const camera = new THREE.OrthographicCamera(
     1000
 );
 
-camera.position.set(30, 45, 30);
-camera.lookAt(0, 0, 0);
+camera.position.set(30,45,30);
+camera.lookAt(0,0,0);
 
 //////////////////////////////////////////////////
 // RENDERER
 //////////////////////////////////////////////////
 
 const renderer = new THREE.WebGLRenderer({
-    antialias: true,
-    alpha: true
+    antialias:true,
+    alpha:true
 });
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -128,10 +155,10 @@ document.body.appendChild(renderer.domElement);
 // LIGHTS
 //////////////////////////////////////////////////
 
-scene.add(new THREE.AmbientLight(0xffffff, 2.5));
+scene.add(new THREE.AmbientLight(0xffffff,2.5));
 
-const sun = new THREE.DirectionalLight(0xffffff, 2);
-sun.position.set(50, 100, 50);
+const sun = new THREE.DirectionalLight(0xffffff,2);
+sun.position.set(50,100,50);
 scene.add(sun);
 
 //////////////////////////////////////////////////
@@ -140,6 +167,19 @@ scene.add(sun);
 
 const world = new THREE.Group();
 scene.add(world);
+
+//////////////////////////////////////////////////
+// MARCADOR FUCSIA 3D
+//////////////////////////////////////////////////
+
+const marker = new THREE.Mesh(
+    new THREE.SphereGeometry(0.6,16,16),
+    new THREE.MeshBasicMaterial({
+        color:"#E61F84"
+    })
+);
+
+scene.add(marker);
 
 //////////////////////////////////////////////////
 // GRID
@@ -152,12 +192,12 @@ const palette = [
 ];
 
 const SIZE = 34;
-const geometry = new THREE.BoxGeometry(1.02, 1, 1.02);
+const geometry = new THREE.BoxGeometry(1.02,1,1.02);
 
 const cubes = [];
 
-for(let x=0; x<SIZE; x++){
-for(let z=0; z<SIZE; z++){
+for(let x=0;x<SIZE;x++){
+for(let z=0;z<SIZE;z++){
 
     const mesh = new THREE.Mesh(
         geometry,
@@ -166,17 +206,24 @@ for(let z=0; z<SIZE; z++){
         })
     );
 
-    mesh.position.set(x - SIZE/2, 0.5, z - SIZE/2);
+    mesh.position.set(
+        x - SIZE/2,
+        0.5,
+        z - SIZE/2
+    );
+
     world.add(mesh);
 
     cubes.push({
         mesh,
         x,
         z,
-        originX: x - SIZE/2,
-        originZ: z - SIZE/2,
-        height: 1,
-        vx:0, vy:0, vz:0,
+        originX:x - SIZE/2,
+        originZ:z - SIZE/2,
+        height:1,
+        vx:0,
+        vy:0,
+        vz:0,
         shock:0,
         detached:false
     });
@@ -189,13 +236,25 @@ for(let z=0; z<SIZE; z++){
 
 const mouse = { x:999, y:999 };
 
+const cursor = document.querySelector(".cursor");
+
 window.addEventListener("mousemove", e=>{
+
     mouse.x = (e.clientX / innerWidth) * 2 - 1;
     mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+
+    if(cursor){
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+    }
 });
 
 const raycaster = new THREE.Raycaster();
-const plane = new THREE.Plane(new THREE.Vector3(0,1,0),0);
+const plane = new THREE.Plane(
+    new THREE.Vector3(0,1,0),
+    0
+);
+
 const point = new THREE.Vector3();
 
 //////////////////////////////////////////////////
@@ -214,8 +273,10 @@ function launchDodecahedron(){
     raycaster.setFromCamera(mouse, camera);
     raycaster.ray.intersectPlane(plane, point);
 
-    impactX = point.x;
-    impactZ = point.z;
+    // CAE EN EL LADO OPUESTO AL CURSOR
+
+    impactX = -point.x;
+    impactZ = -point.z;
 
     projectile = new THREE.Mesh(
         new THREE.DodecahedronGeometry(5),
@@ -226,17 +287,32 @@ function launchDodecahedron(){
         })
     );
 
-    projectile.add(new THREE.PointLight("#E61F84", 15, 40));
-    projectile.position.set(impactX, 90, impactZ);
+    projectile.add(
+        new THREE.PointLight(
+            "#E61F84",
+            15,
+            40
+        )
+    );
+
+    projectile.position.set(
+        impactX,
+        90,
+        impactZ
+    );
 
     projectileVelocity = 0;
+
     scene.add(projectile);
 }
 
-window.addEventListener("click", launchDodecahedron);
+window.addEventListener(
+    "click",
+    launchDodecahedron
+);
 
 //////////////////////////////////////////////////
-// RESET (ARREGLADO 100%)
+// RESET
 //////////////////////////////////////////////////
 
 function resetWorld(){
@@ -245,7 +321,12 @@ function resetWorld(){
 
     cubes.forEach(c=>{
 
-        c.mesh.position.set(c.originX, 0.5, c.originZ);
+        c.mesh.position.set(
+            c.originX,
+            0.5,
+            c.originZ
+        );
+
         c.mesh.scale.set(1,1,1);
         c.mesh.rotation.set(0,0,0);
 
@@ -259,13 +340,14 @@ function resetWorld(){
     });
 
     if(projectile){
+
         scene.remove(projectile);
         projectile = null;
     }
 }
 
 //////////////////////////////////////////////////
-// AUDIO UPDATE 🌊
+// AUDIO UPDATE
 //////////////////////////////////////////////////
 
 function updateAudio(){
@@ -275,15 +357,24 @@ function updateAudio(){
     let energy = 0;
 
     for(const c of cubes){
-        energy += Math.max(c.height - 1, 0);
+        energy += Math.max(
+            c.height - 1,
+            0
+        );
     }
 
     energy /= cubes.length;
 
-    energy = Math.pow(energy * 3, 1.1);
+    energy = Math.pow(
+        energy * 3,
+        1.1
+    );
 
     const freq = 40 + energy * 25;
-    const amp = Math.min(energy * 0.2, 0.15);
+    const amp = Math.min(
+        energy * 0.2,
+        0.15
+    );
 
     droneOsc.frequency.setTargetAtTime(
         freq,
@@ -298,6 +389,7 @@ function updateAudio(){
     );
 
     if(noiseGain){
+
         noiseGain.gain.setTargetAtTime(
             0.02 + energy * 0.06,
             audioCtx.currentTime,
@@ -311,7 +403,11 @@ function updateAudio(){
 //////////////////////////////////////////////////
 
 function lerpColor(a,b,t){
-    return a.clone().lerp(b,t);
+
+    return a.clone().lerp(
+        b,
+        t
+    );
 }
 
 //////////////////////////////////////////////////
@@ -324,44 +420,105 @@ function animate(time=0){
 
     const t = time * 0.001;
 
+    //////////////////////////////////////////////////
+    // CÁMARA
+    //////////////////////////////////////////////////
+
     const radius = 34;
 
-    camera.position.x = Math.cos(t*0.12)*radius;
-    camera.position.z = Math.sin(t*0.12)*radius;
-    camera.position.y = 45;
-    camera.lookAt(0,0,0);
+    camera.position.x =
+        Math.cos(t * 0.12) * radius;
 
-    raycaster.setFromCamera(mouse,camera);
-    raycaster.ray.intersectPlane(plane,point);
+    camera.position.z =
+        Math.sin(t * 0.12) * radius;
+
+    camera.position.y = 45;
+
+    camera.lookAt(
+        0,
+        0,
+        0
+    );
+
+    //////////////////////////////////////////////////
+    // CURSOR 3D
+    //////////////////////////////////////////////////
+
+    raycaster.setFromCamera(
+        mouse,
+        camera
+    );
+
+    raycaster.ray.intersectPlane(
+        plane,
+        point
+    );
+
+    marker.position.set(
+        -point.x,
+        1.5,
+        -point.z
+    );
+
+    //////////////////////////////////////////////////
+    // DODECAEDRO
+    //////////////////////////////////////////////////
 
     if(projectile){
 
         projectileVelocity += 0.02;
-        projectile.position.y -= projectileVelocity;
+
+        projectile.position.y -=
+            projectileVelocity;
 
         projectile.rotation.x += 0.15;
         projectile.rotation.y += 0.12;
-        projectile.rotation.z += 0.1;
+        projectile.rotation.z += 0.10;
 
         if(projectile.position.y <= 4){
 
             cubes.forEach(c=>{
 
-                const dx = c.mesh.position.x - impactX;
-                const dz = c.mesh.position.z - impactZ;
+                const dx =
+                    c.mesh.position.x
+                    - impactX;
 
-                const dist = Math.sqrt(dx*dx + dz*dz);
+                const dz =
+                    c.mesh.position.z
+                    - impactZ;
+
+                const dist =
+                    Math.sqrt(
+                        dx*dx +
+                        dz*dz
+                    );
 
                 if(dist < 14){
 
-                    const force = (14 - dist) * 0.45;
+                    const force =
+                        (14 - dist) * 0.45;
 
-                    c.vx = dx * force * 0.25;
-                    c.vz = dz * force * 0.25;
-                    c.vy = 2 + Math.random() * 4;
-                    c.shock = force * 6;
+                    c.vx =
+                        dx *
+                        force *
+                        0.25;
 
-                    if(Math.random() > 0.7) c.detached = true;
+                    c.vz =
+                        dz *
+                        force *
+                        0.25;
+
+                    c.vy =
+                        2 +
+                        Math.random() * 4;
+
+                    c.shock =
+                        force * 6;
+
+                    if(Math.random() > 0.7){
+
+                        c.detached = true;
+                    }
                 }
             });
 
@@ -369,6 +526,10 @@ function animate(time=0){
             projectile = null;
         }
     }
+
+    //////////////////////////////////////////////////
+    // CUBOS
+    //////////////////////////////////////////////////
 
     cubes.forEach(c=>{
 
@@ -384,70 +545,153 @@ function animate(time=0){
 
             m.rotation.x += 0.05;
             m.rotation.y += 0.05;
+
             return;
         }
 
-        const dx = m.position.x - point.x;
-        const dz = m.position.z - point.z;
+        // RELIEVE EN EL LADO OPUESTO
 
-        const dist = Math.sqrt(dx*dx + dz*dz);
+        const liftX = -point.x;
+        const liftZ = -point.z;
 
-        let target = Math.max(1, 12 - dist);
-        target += Math.sin(t*2 + c.x*0.3 + c.z*0.3)*2;
+        const dx =
+            m.position.x - liftX;
 
-        c.height += (target - c.height)*0.08;
+        const dz =
+            m.position.z - liftZ;
+
+        const dist =
+            Math.sqrt(
+                dx*dx +
+                dz*dz
+            );
+
+        let target =
+            Math.max(
+                1,
+                12 - dist
+            );
+
+        target +=
+            Math.sin(
+                t * 2 +
+                c.x * 0.3 +
+                c.z * 0.3
+            ) * 2;
+
+        c.height +=
+            (target - c.height)
+            * 0.08;
+
         c.shock *= 0.92;
 
-        const h = c.height + c.shock;
+        const h =
+            c.height +
+            c.shock;
 
         m.scale.y = h;
-        m.position.y = h/2;
+        m.position.y = h / 2;
 
-        const n = Math.min(c.height/12,1);
+        const n =
+            Math.min(
+                c.height / 12,
+                1
+            );
 
         const col =
             n < 0.5
-            ? lerpColor(palette[0],palette[1],n*2)
-            : lerpColor(palette[1],palette[2],(n-0.5)*2);
+            ? lerpColor(
+                palette[0],
+                palette[1],
+                n * 2
+            )
+            : lerpColor(
+                palette[1],
+                palette[2],
+                (n - 0.5) * 2
+            );
 
         m.material.color.copy(col);
     });
 
+    //////////////////////////////////////////////////
+    // AUDIO
+    //////////////////////////////////////////////////
+
     updateAudio();
 
+    //////////////////////////////////////////////////
+    // ROTACIÓN MUNDO
+    //////////////////////////////////////////////////
+
     world.rotation.y += 0.0006;
-    renderer.render(scene,camera);
+
+    renderer.render(
+        scene,
+        camera
+    );
 }
 
 animate();
 
 //////////////////////////////////////////////////
-// RESET BUTTON SAFE
+// RESET BUTTON
 //////////////////////////////////////////////////
 
-window.addEventListener("load", () => {
+window.addEventListener(
+    "load",
+    ()=>{
 
-    const btn = document.getElementById("resetBtn");
+        const btn =
+            document.getElementById(
+                "resetBtn"
+            );
 
-    if(btn){
-        btn.addEventListener("click", resetWorld);
-    } else {
-        console.warn("No existe resetBtn en HTML");
+        if(btn){
+
+            btn.addEventListener(
+                "click",
+                resetWorld
+            );
+
+        }else{
+
+            console.warn(
+                "No existe resetBtn en HTML"
+            );
+        }
     }
-});
+);
 
 //////////////////////////////////////////////////
 // RESIZE
 //////////////////////////////////////////////////
 
-window.addEventListener("resize",()=>{
-    aspect = innerWidth/innerHeight;
+window.addEventListener(
+    "resize",
+    ()=>{
 
-    camera.left = (-frustum*aspect)/2;
-    camera.right = (frustum*aspect)/2;
-    camera.top = frustum/2;
-    camera.bottom = -frustum/2;
+        aspect =
+            innerWidth /
+            innerHeight;
 
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth,innerHeight);
-});
+        camera.left =
+            (-frustum * aspect) / 2;
+
+        camera.right =
+            (frustum * aspect) / 2;
+
+        camera.top =
+            frustum / 2;
+
+        camera.bottom =
+            -frustum / 2;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
+    }
+);
