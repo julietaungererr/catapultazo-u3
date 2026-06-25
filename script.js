@@ -396,53 +396,41 @@ conceptos.forEach(card => {
 });
 
 function safeBase64Decode(str) {
+
     try {
-        return atob(str);
+
+        const binary = atob(
+            str.replace(/\s+/g, '')
+        );
+
+        const bytes = Uint8Array.from(
+            binary,
+            c => c.charCodeAt(0)
+        );
+
+        return new TextDecoder("utf-8")
+            .decode(bytes);
+
     } catch (e) {
-        console.error("Base64 inválido:", e);
+
+        console.error("BASE64 ERROR:", e);
+
         return null;
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+const dataEl = document.getElementById("pix-data");
 
-    const container = document.getElementById("pix-container");
-    const dataEl = document.getElementById("pix-data");
+const raw = dataEl.textContent
+    .replace(/\s+/g, '')
+    .trim();
 
-    if (!container || !dataEl) {
-        console.warn("PIX: faltan elementos HTML");
-        return;
-    }
+const invalidChars = raw.match(/[^A-Za-z0-9+/=]/g);
 
-    const raw = dataEl.textContent.trim();
-    const decoded = safeBase64Decode(raw);
+console.log("INVALID:", invalidChars);
 
-    if (!decoded) {
-        container.innerHTML = "<p>Error: Base64 inválido</p>";
-        return;
-    }
+console.log("PIX RAW LENGTH:", raw.length);
+console.log("PIX RAW START:", raw.substring(0,50));
+console.log("PIX RAW END:", raw.substring(raw.length-50));
 
-    try {
-        const data = JSON.parse(decoded);
-
-        container.innerHTML = "";
-
-        const card = document.createElement("div");
-        card.className = "pix-card";
-
-        const title = document.createElement("h3");
-        title.textContent = data.title || "Sin título";
-
-        const desc = document.createElement("p");
-        desc.textContent = data.description || "Sin descripción";
-
-        card.appendChild(title);
-        card.appendChild(desc);
-
-        container.appendChild(card);
-
-    } catch (err) {
-        console.error("JSON ERROR:", err);
-        container.innerHTML = "<p>Error: JSON inválido</p>";
-    }
-});
+const decoded = safeBase64Decode(raw);
