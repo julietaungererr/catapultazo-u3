@@ -92,6 +92,14 @@ header{
     letter-spacing: 4px;
     color: #C3D104;
     text-decoration: none;
+    display: inline-block;
+    transition: letter-spacing .35s ease, color .35s ease, transform .35s ease;
+}
+
+.logo:hover{
+    letter-spacing: 6px;
+    color: #E61F84;
+    transform: translateY(-1px);
 }
 
 nav{
@@ -100,13 +108,32 @@ nav{
 }
 
 nav a{
+    position: relative;
     color: #B8B1D8;
     text-decoration: none;
-    transition: .3s;
+    transition: color .3s;
+    padding-bottom: 4px;
+}
+
+nav a::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: #C3D104;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s ease;
 }
 
 nav a:hover{
     color: #C3D104;
+}
+
+nav a:hover::after{
+    transform: scaleX(1);
 }
 
 /* =========================
@@ -165,6 +192,8 @@ nav a:hover{
 
 .primary,
 .secondary{
+    position: relative;
+    overflow: hidden;
     padding: 18px 34px;
     border-radius: 999px;
     text-decoration: none;
@@ -180,6 +209,7 @@ nav a:hover{
 
 .primary:hover{
     transform: translateY(-4px);
+    box-shadow: 0 6px 40px rgba(230,31,132,.65);
 }
 
 .secondary{
@@ -279,22 +309,6 @@ nav a:hover{
 .catapultazo h2,
 .catapultazo h3{
     color: #C3D104;
-}
-
-.placeholder-imagen{
-    width: 100%;
-    max-width: 500px;
-    height: 600px;
-    border-radius: 24px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #E61F84;
-    font-weight: 800;
-    letter-spacing: 2px;
 }
 
 /* =========================
@@ -611,38 +625,6 @@ section{
     z-index: 2;
 }
 
-/* =========================
-   DE LO FISICO A LO DIGITAL
-========================= */
-
-.fisico-digital{
-    background: radial-gradient(
-        circle at center,
-        rgba(230,31,132,0.12),
-        rgba(0,0,0,1) 70%
-    );
-    min-height: 60vh;
-    padding: 100px 8vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.fisico-digital-content{
-    max-width: 700px;
-    text-align: center;
-}
-
-.fisico-digital .titulo-experimental{
-    max-width: 100%;
-    text-align: center;
-}
-
-.fisico-digital .texto-experimental{
-    max-width: 100%;
-    text-align: center;
-    margin: 0 auto;
-}
 
 /* =========================
    EXPERIMENTAL
@@ -695,6 +677,8 @@ section{
 }
 
 .btn-experimental{
+    position: relative;
+    overflow: hidden;
     display: inline-block;
     padding: 16px 28px;
     border-radius: 999px;
@@ -739,16 +723,15 @@ p,
 .como-funciona{
     position: relative;
     min-height: 100vh;
-    padding: 180px 8vw;
+    padding: 100px 20px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-      padding: 100px 20px;
-  text-align: center;
-  background: rgba(230, 31, 131, 0.188); /* 💗 fucsia transparente real */
- backdrop-filter: blur(14px);
--webkit-backdrop-filter: blur(14px);
+    text-align: center;
+    background: rgba(230,31,131,.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .como-funciona-content{
@@ -761,39 +744,212 @@ p,
     padding: 0 20px;
 }
 
-.pasos-grid{
+/* =========================
+   STEPPER — CÓMO FUNCIONA
+========================= */
+
+.stepper{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
+    grid-template-columns: 240px 1fr;
+    gap: 50px;
     margin-top: 60px;
+    text-align: left;
+    width: 92vw;
+    max-width: 1500px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    box-sizing: border-box;
 }
 
-.paso-card{
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
-    padding: 30px 22px;
+.stepper-nav{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.stepper-btn{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 18px 22px;
+    border-radius: 12px;
+    transition: background .25s, transform .2s;
+    width: 100%;
     text-align: left;
 }
 
-.paso-numero{
-    display: block;
-    font-size: 2rem;
-    font-weight: 900;
-    color: #C3D104;
-    margin-bottom: 12px;
+.stepper-btn:hover{
+    background: rgba(255,255,255,.05);
+    transform: translateX(4px);
 }
 
-.paso-card h3{
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+.stepper-btn.active{
+    background: rgba(230,31,132,.12);
+    border: 1px solid rgba(230,31,132,.35);
+}
+
+.stepper-num{
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: rgba(184,177,216,.4);
+    line-height: 1;
+    transition: color .25s;
+}
+
+.stepper-btn.active .stepper-num,
+.stepper-btn.done .stepper-num{
+    color: #C3D104;
+}
+
+.stepper-label{
+    font-size: .8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(184,177,216,.5);
+    transition: color .25s;
+}
+
+.stepper-btn.active .stepper-label{
+    color: #E61F84;
+}
+
+.stepper-btn.done .stepper-label{
     color: #B8B1D8;
 }
 
-.paso-card p{
-    font-size: 0.95rem;
-    opacity: 0.85;
+.stepper-line{
+    width: 2px;
+    height: 28px;
+    margin-left: 34px;
+    background: rgba(255,255,255,.08);
+    border-radius: 2px;
+}
+
+.stepper-content{
+    position: relative;
+}
+
+.stepper-panel{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: opacity .4s ease, transform .4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(12px);
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.stepper-panel.active{
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.stepper-panel-num{
+    font-size: 4rem;
+    font-weight: 900;
+    color: rgba(195,209,4,.15);
+    line-height: 1;
+    letter-spacing: -3px;
+}
+
+.stepper-panel h3{
+    font-size: 1.8rem;
+    color: #C3D104;
+    margin: 0;
+}
+
+.stepper-panel p{
+    color: #B8B1D8;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 70ch;
+    overflow-wrap: break-word;
+}
+
+.stepper-next-btn{
+    position: relative;
+    overflow: hidden;
+    margin-top: auto;
+    align-self: flex-start;
+    padding: 12px 24px;
+    border-radius: 999px;
+    border: 1px solid rgba(230,31,132,.5);
+    background: rgba(230,31,132,.1);
+    color: #E61F84;
+    font-weight: 700;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: .3s;
+    letter-spacing: .5px;
+}
+
+.stepper-next-btn:hover{
+    background: rgba(230,31,132,.25);
+    transform: translateX(4px);
+}
+
+.stepper-restart{
+    border-color: rgba(195,209,4,.5);
+    background: rgba(195,209,4,.08);
+    color: #C3D104;
+}
+
+.stepper-restart:hover{
+    background: rgba(195,209,4,.18);
+    transform: translateX(0) rotate(-4deg);
+}
+
+@media (max-width:768px){
+    .stepper{
+        grid-template-columns: 1fr;
+    }
+
+    .stepper-nav{
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 0;
+        padding-bottom: 6px;
+    }
+
+    .stepper-line{
+        width: 28px;
+        height: 2px;
+        margin: 0;
+        align-self: center;
+    }
+
+    .stepper-content{
+        min-height: 320px;
+    }
+}
+
+/* =========================
+   PIX IFRAME WRAPPER
+========================= */
+
+.pix-iframe-wrapper{
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    box-shadow: 0 8px 40px rgba(0,0,0,.4);
 }
 
 /* =========================
@@ -916,26 +1072,6 @@ p,
     text-transform: uppercase;
 }
 
-.pix-card{
-    background: rgba(255,255,255,0.06);
-    padding: 20px;
-    border-radius: 15px;
-    backdrop-filter: blur(12px);
-}
-
-.pix-steps{
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.pix-step{
-    padding: 10px;
-    border-left: 3px solid #fff;
-    background: rgba(255,255,255,0.03);
-    border-radius: 8px;
-}
 
 .pix h2,
 .pix h3{
@@ -1253,55 +1389,9 @@ footer p{
 
 }
 
-.impacto {
-    padding: 140px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 80px;
-}
-
-.impacto-layout {
-    width: 100%;
-    max-width: 1400px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background: #C3D104;
-    border-radius: 24px;
-    overflow: hidden;
-}
-
-.impacto-izquierda{
-    padding: 80px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.impacto-izquierda h2{
-    color: #E61F84;
-    margin: 0;
-    
-}
-
-.impacto-derecha{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.impacto-cuadro{
-    width: 100%;
-    height: 100%;
-    min-height: 500px;
-}
-
-.impacto-caja{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+/* =========================
+   GALERIA (SLIDER)
+========================= */
 
 .impacto-gallery{
     position: relative;
@@ -1310,8 +1400,6 @@ footer p{
     overflow: hidden;
     border-radius: 20px;
 }
-
-
 
 /* TRACK SLIDE */
 .galeria-track{
@@ -1354,3 +1442,304 @@ footer p{
 
 .prev{ left: 12px; }
 .next{ right: 12px; }
+/* =========================
+   TRANSICIÓN ENTRE PÁGINAS
+========================= */
+
+.page-transition{
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    background: #0B081A;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease;
+}
+
+.page-transition.active{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.page-transition-loader{
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 3px solid rgba(184,177,216,.2);
+    border-top-color: #E61F84;
+    border-right-color: #C3D104;
+    animation: page-transition-spin .8s linear infinite;
+}
+
+@keyframes page-transition-spin{
+    to{ transform: rotate(360deg); }
+}
+
+.page-transition-text{
+    font-size: .8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #B8B1D8;
+}
+
+/* =========================
+   MICROINTERACCIONES — CURSOR
+========================= */
+
+@media (hover: hover) and (pointer: fine){
+    body{
+        cursor: none;
+    }
+}
+
+.cursor-dot,
+.cursor-ring{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    pointer-events: none;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cursor-dot{
+    width: 6px;
+    height: 6px;
+    background: #E61F84;
+    transition: opacity .2s ease;
+}
+
+.cursor-ring{
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(184,177,216,.5);
+    transition: width .25s ease, height .25s ease, border-color .25s ease, background .25s ease, opacity .2s ease;
+}
+
+.cursor-ring.cursor-hover{
+    width: 56px;
+    height: 56px;
+    border-color: #C3D104;
+    background: rgba(195,209,4,.08);
+}
+
+@media (hover: none), (pointer: coarse){
+    .cursor-dot,
+    .cursor-ring{
+        display: none;
+    }
+}
+
+/* =========================
+   BARRA DE PROGRESO DE SCROLL
+========================= */
+
+.scroll-progress{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, #E61F84, #C3D104);
+    z-index: 9997;
+    transition: width .1s linear;
+}
+
+/* =========================
+   RIPPLE EN BOTONES
+========================= */
+
+.ripple{
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    background: rgba(255,255,255,.45);
+    animation: ripple-anim .6s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes ripple-anim{
+    to{
+        transform: scale(2.8);
+        opacity: 0;
+    }
+}
+
+/* =========================
+   TARJETAS — MICRO TILT
+========================= */
+
+.concepto-card{
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+/* =========================
+   MICROINTERACCIONES — REVEAL EN SCROLL (TÍTULOS)
+========================= */
+
+.titulo-seccion,
+.bajada-seccion,
+.pix-titulo,
+.pix-texto,
+.titulo-experimental,
+.texto-experimental{
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.titulo-seccion.visible,
+.bajada-seccion.visible,
+.pix-titulo.visible,
+.pix-texto.visible,
+.titulo-experimental.visible,
+.texto-experimental.visible{
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.bajada-seccion.visible,
+.pix-texto.visible,
+.texto-experimental.visible{
+    transition-delay: .12s;
+}
+
+/* =========================
+   MICROINTERACCIONES — STATUS FOOTER (PULSO)
+========================= */
+
+.footer-status::before{
+    display: inline-block;
+    animation: status-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes status-pulse{
+    0%, 100%{ opacity: 1; transform: scale(1); }
+    50%{ opacity: .35; transform: scale(.7); }
+}
+
+/* =========================
+   MICROINTERACCIONES — FOOTER CHIPS
+========================= */
+
+.footer-chip{
+    transition: transform .25s ease, color .25s ease, border-color .25s ease, background .25s ease;
+}
+
+.footer-chip:hover{
+    transform: translateY(-3px);
+    color: #C3D104;
+    border-color: rgba(195,209,4,.4);
+    background: rgba(195,209,4,.08);
+}
+
+/* =========================
+   MICROINTERACCIONES — GALERÍA ZOOM
+========================= */
+
+.galeria-track{
+    overflow: hidden;
+}
+
+.galeria-img{
+    transition: transform .5s ease;
+}
+
+.galeria-img:hover{
+    transform: scale(1.04);
+}
+
+/* =========================
+   MICROINTERACCIONES — NAV LINK ACTIVO
+========================= */
+
+nav a.nav-active{
+    color: #C3D104;
+}
+
+nav a.nav-active::after{
+    transform: scaleX(1);
+}
+
+/* =========================
+   MICROINTERACCIONES — BOTÓN VOLVER ARRIBA
+========================= */
+
+.back-to-top{
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,177,216,.25);
+    background: rgba(11,8,26,.65);
+    backdrop-filter: blur(10px);
+    color: #B8B1D8;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 90;
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease, color .3s ease, border-color .3s ease;
+}
+
+.back-to-top.visible{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-top:hover{
+    color: #E61F84;
+    border-color: rgba(230,31,132,.45);
+    transform: translateY(-3px);
+}
+
+/* =========================
+   MICROINTERACCIONES — STEPPER BTN PULSO AL CLICK
+========================= */
+
+.stepper-btn{
+    position: relative;
+    overflow: visible;
+}
+
+.stepper-btn::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    border: 1px solid rgba(195,209,4,.6);
+    opacity: 0;
+    transform: scale(.85);
+    pointer-events: none;
+}
+
+.stepper-btn.pulse::before{
+    animation: stepper-pulse .5s ease-out;
+}
+
+@keyframes stepper-pulse{
+    0%{ opacity: .8; transform: scale(.9); }
+    100%{ opacity: 0; transform: scale(1.08); }
+}
+
+/* =========================
+   MICROINTERACCIONES — HERO PARALLAX SUTIL
+========================= */
+
+.hero-content{
+    will-change: transform;
+    transition: transform .2s ease-out;
+}

@@ -15,9 +15,54 @@
         rel="stylesheet"
         href="experiencia.css">
 
+    <style>
+        #loadingScreen{
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            background: #0B081A;
+            opacity: 1;
+            transition: opacity .5s ease;
+        }
+        #loadingScreen.hidden{
+            opacity: 0;
+            pointer-events: none;
+        }
+        #loadingScreen .loader-spin{
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: 3px solid rgba(184,177,216,.2);
+            border-top-color: #E61F84;
+            border-right-color: #C3D104;
+            animation: loader-spin .8s linear infinite;
+        }
+        @keyframes loader-spin{
+            to{ transform: rotate(360deg); }
+        }
+        #loadingScreen span{
+            font-family: 'Inter', sans-serif;
+            font-size: .8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #B8B1D8;
+        }
+    </style>
+
 </head>
 
 <body>
+
+    <!-- PANTALLA DE CARGA -->
+    <div id="loadingScreen">
+        <div class="loader-spin"></div>
+        <span>Cargando experiencia…</span>
+    </div>
 
     <!-- GIF DE FONDO -->
 
@@ -54,6 +99,17 @@
     <script
         type="module"
         src="experiencia.js">
+    </script>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loadingScreen = document.querySelector('#loadingScreen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.classList.add('hidden');
+                }, 350);
+            }
+        });
     </script>
 
 </body>

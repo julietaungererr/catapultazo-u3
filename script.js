@@ -343,6 +343,10 @@ conceptos.forEach(card => {
 
 });
 
+/* =========================
+   GALERÍA (SLIDER)
+========================= */
+
 const track = document.querySelector('.galeria-track');
 const images = document.querySelectorAll('.galeria-img');
 const prevBtn = document.querySelector('.prev');
@@ -354,12 +358,282 @@ function updateSlide(){
     track.style.transform = `translateX(-${index * 100}%)`;
 }
 
-nextBtn.addEventListener('click', () => {
-    index = (index + 1) % images.length;
-    updateSlide();
+if (nextBtn && prevBtn && track && images.length) {
+    nextBtn.addEventListener('click', () => {
+        index = (index + 1) % images.length;
+        updateSlide();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        index = (index - 1 + images.length) % images.length;
+        updateSlide();
+    });
+}
+
+/* =========================
+   STEPPER — CÓMO FUNCIONA
+========================= */
+
+const stepperBtns   = document.querySelectorAll('.stepper-btn');
+const stepperPanels = document.querySelectorAll('.stepper-panel');
+
+function goToStep(n) {
+    stepperBtns.forEach((btn, i) => {
+        btn.classList.remove('active', 'done');
+        if (i < n)  btn.classList.add('done');
+        if (i === n) btn.classList.add('active');
+    });
+    stepperPanels.forEach((panel, i) => {
+        panel.classList.toggle('active', i === n);
+    });
+}
+
+stepperBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        goToStep(Number(btn.dataset.step));
+    });
 });
 
-prevBtn.addEventListener('click', () => {
-    index = (index - 1 + images.length) % images.length;
-    updateSlide();
+document.querySelectorAll('.stepper-next-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const activePanel = document.querySelector('.stepper-panel.active');
+        const current = Number(activePanel?.dataset.panel ?? 0);
+        const next = (current + 1) % stepperPanels.length;
+        goToStep(next);
+    });
 });
+/* =========================
+   TRANSICIÓN HACIA EXPERIENCIA.HTML
+========================= */
+
+const pageTransition = document.querySelector('#pageTransition');
+const transitionLinks = document.querySelectorAll('a[href="experiencia.html"]');
+
+if (pageTransition && transitionLinks.length) {
+
+    transitionLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const destino = link.getAttribute('href');
+
+            pageTransition.classList.add('active');
+
+            setTimeout(() => {
+                window.location.href = destino;
+            }, 550);
+        });
+    });
+}
+
+/* =========================
+   MICROINTERACCIONES — CURSOR PERSONALIZADO
+========================= */
+
+const cursorDot  = document.querySelector('.cursor-dot');
+const cursorRing = document.querySelector('.cursor-ring');
+
+if (cursorDot && cursorRing && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+
+    let ringX = 0, ringY = 0;
+    let mouseXc = 0, mouseYc = 0;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseXc = e.clientX;
+        mouseYc = e.clientY;
+
+        cursorDot.style.left = `${mouseXc}px`;
+        cursorDot.style.top  = `${mouseYc}px`;
+    });
+
+    function animateRing(){
+        ringX += (mouseXc - ringX) * 0.18;
+        ringY += (mouseYc - ringY) * 0.18;
+
+        cursorRing.style.left = `${ringX}px`;
+        cursorRing.style.top  = `${ringY}px`;
+
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    const hoverables = document.querySelectorAll(
+        'a, button, .concepto-card, .galeria-img, input, textarea, [data-cursor-hover]'
+    );
+
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => cursorRing.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', () => cursorRing.classList.remove('cursor-hover'));
+    });
+
+    document.addEventListener('mousedown', () => {
+        cursorDot.style.opacity = '0.4';
+    });
+    document.addEventListener('mouseup', () => {
+        cursorDot.style.opacity = '1';
+    });
+}
+
+/* =========================
+   MICROINTERACCIONES — BARRA DE PROGRESO
+========================= */
+
+const scrollProgress = document.querySelector('.scroll-progress');
+
+if (scrollProgress) {
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollProgress.style.width = `${pct}%`;
+    });
+}
+
+/* =========================
+   MICROINTERACCIONES — BOTONES MAGNÉTICOS
+========================= */
+
+const magneticButtons = document.querySelectorAll('.primary, .secondary, .btn-experimental, .stepper-next-btn');
+
+magneticButtons.forEach(btn => {
+
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        btn.style.transform = `translate(${x * 0.18}px, ${y * 0.35}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+    });
+
+    /* RIPPLE AL HACER CLICK */
+    btn.addEventListener('click', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        const size = Math.max(rect.width, rect.height);
+
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = `${size}px`;
+        ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+        ripple.style.top  = `${e.clientY - rect.top - size / 2}px`;
+
+        btn.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 650);
+    });
+});
+
+/* =========================
+   MICROINTERACCIONES — TILT EN TARJETAS
+========================= */
+
+document.querySelectorAll('.concepto-card').forEach(card => {
+
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const rotateX = ((y / rect.height) - 0.5) * -6;
+        const rotateY = ((x / rect.width) - 0.5) * 6;
+
+        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+    });
+});
+
+/* =========================
+   MICROINTERACCIONES — REVEAL DE TÍTULOS EN SCROLL
+========================= */
+
+const revealTargets = document.querySelectorAll(
+    '.titulo-seccion, .bajada-seccion, .pix-titulo, .pix-texto, .titulo-experimental, .texto-experimental'
+);
+
+if (revealTargets.length) {
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.25 });
+
+    revealTargets.forEach(el => revealObserver.observe(el));
+}
+
+/* =========================
+   MICROINTERACCIONES — NAV LINK ACTIVO SEGÚN SCROLL
+========================= */
+
+const navLinks = document.querySelectorAll('header nav a[href^="#"]');
+const navSections = Array.from(navLinks)
+    .map(link => document.querySelector(link.getAttribute('href')))
+    .filter(Boolean);
+
+if (navLinks.length && navSections.length) {
+
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const id = `#${entry.target.id}`;
+            const link = Array.from(navLinks).find(a => a.getAttribute('href') === id);
+            if (!link) return;
+
+            if (entry.isIntersecting) {
+                navLinks.forEach(a => a.classList.remove('nav-active'));
+                link.classList.add('nav-active');
+            }
+        });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    navSections.forEach(section => navObserver.observe(section));
+}
+
+/* =========================
+   MICROINTERACCIONES — BOTÓN VOLVER ARRIBA
+========================= */
+
+const backToTop = document.querySelector('.back-to-top');
+
+if (backToTop) {
+    window.addEventListener('scroll', () => {
+        backToTop.classList.toggle('visible', window.scrollY > 700);
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+/* =========================
+   MICROINTERACCIONES — PULSO EN STEPPER BTN AL CLICK
+========================= */
+
+document.querySelectorAll('.stepper-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.remove('pulse');
+        void btn.offsetWidth;
+        btn.classList.add('pulse');
+    });
+});
+
+/* =========================
+   MICROINTERACCIONES — PARALLAX SUTIL DEL HERO
+========================= */
+
+const heroContent = document.querySelector('.hero-content');
+
+if (heroContent) {
+    window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 14;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        heroContent.style.transform = `translate(${x}px, ${y}px)`;
+    });
+}
