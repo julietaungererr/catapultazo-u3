@@ -76,13 +76,19 @@ canvas{
     z-index:3;
 }
 
-#resetBtn{
+#resetBtn:hover{
+
+    background:#E61F84;
+
+    transform:scale(1.05);
+
+}
+
+#resetBtn,
+#landingBtn{
 
     position:fixed;
-
-    top:20px;
     left:20px;
-
     z-index:1000;
 
     padding:12px 18px;
@@ -102,12 +108,50 @@ canvas{
     transition:.25s;
 
     backdrop-filter:blur(8px);
+
 }
 
-#resetBtn:hover{
+#resetBtn,
+#landingBtn{
 
-    background:#E61F84;
+    position: fixed;
+    left: 20px;
 
-    transform:scale(1.05);
+    z-index: 1000;
+
+    padding: 12px 18px;
+
+    border: none;
+
+    background: rgba(0,0,0,.75);
+
+    color: #fff;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    backdrop-filter: blur(8px);
+
+}
+
+#resetBtn{
+    top: 20px;
+}
+
+#landingBtn{
+    top: 75px;
+}
+
+#resetBtn:hover,
+#landingBtn:hover{
+
+    background: #E61F84;
+
+    transform: scale(1.05);
 
 }

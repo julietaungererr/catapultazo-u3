@@ -168,18 +168,6 @@ scene.add(sun);
 const world = new THREE.Group();
 scene.add(world);
 
-//////////////////////////////////////////////////
-// MARCADOR FUCSIA 3D
-//////////////////////////////////////////////////
-
-const marker = new THREE.Mesh(
-    new THREE.SphereGeometry(0.6,16,16),
-    new THREE.MeshBasicMaterial({
-        color:"#E61F84"
-    })
-);
-
-scene.add(marker);
 
 //////////////////////////////////////////////////
 // GRID
@@ -346,6 +334,45 @@ function resetWorld(){
     }
 }
 
+window.addEventListener("load", () => {
+
+    const btn = document.getElementById("resetBtn");
+
+    if (btn) {
+        btn.addEventListener("click", resetWorld);
+    }
+
+    const landingBtn = document.getElementById("landingBtn");
+
+    if (landingBtn) {
+
+        landingBtn.addEventListener("click", () => {
+
+            const transition = document.getElementById("pageTransition");
+
+            if (transition) {
+
+                transition.classList.add("active");
+
+                setTimeout(() => {
+
+                    window.location.href = "index.html";
+
+                }, 600);
+
+            } else {
+
+                window.location.href = "index.html";
+
+            }
+
+        });
+
+    }
+
+});
+
+
 //////////////////////////////////////////////////
 // AUDIO UPDATE
 //////////////////////////////////////////////////
@@ -444,21 +471,8 @@ function animate(time=0){
     // CURSOR 3D
     //////////////////////////////////////////////////
 
-    raycaster.setFromCamera(
-        mouse,
-        camera
-    );
-
-    raycaster.ray.intersectPlane(
-        plane,
-        point
-    );
-
-    marker.position.set(
-        -point.x,
-        1.5,
-        -point.z
-    );
+ raycaster.setFromCamera(mouse, camera);
+raycaster.ray.intersectPlane(plane, point);
 
     //////////////////////////////////////////////////
     // DODECAEDRO
