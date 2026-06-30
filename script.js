@@ -189,58 +189,6 @@ function animate(time = 0) {
 requestAnimationFrame(animate);
 
 /* =========================
-   CATAPULTAZO PARALLAX (FIX)
-========================= */
-
-const section = document.querySelector('#catapultazo');
-const bg = document.querySelector('.catapultazo-bg');
-const left = document.querySelector('.parallax-left');
-const right = document.querySelector('.parallax-right');
-
-/* suavizado */
-let current = 0;
-let target = 0;
-
-function updateParallax() {
-
-    if (!section) return;
-
-    const rect = section.getBoundingClientRect();
-
-    // distancia relativa al viewport
-    target = rect.top * -0.3;
-
-    // suavizado (evita saltos)
-    current += (target - current) * 0.08;
-
-    /* =========================
-       FONDO LILA
-    ========================= */
-    if (bg) {
-        bg.style.transform = `translateY(${current}px) scale(1.1)`;
-    }
-
-    /* =========================
-       TEXTO IZQUIERDA
-    ========================= */
-    if (left) {
-        left.style.transform = `translateY(${current * 0.4}px)`;
-    }
-
-    /* =========================
-       TITULO DERECHA
-    ========================= */
-    if (right) {
-        right.style.transform = `translateY(${current * -0.4}px)`;
-    }
-
-    requestAnimationFrame(updateParallax);
-}
-
-/* inicia loop */
-updateParallax();
-
-/* =====================================
    RESIZE
 ===================================== */
 
@@ -395,3 +343,23 @@ conceptos.forEach(card => {
 
 });
 
+const track = document.querySelector('.galeria-track');
+const images = document.querySelectorAll('.galeria-img');
+const prevBtn = document.querySelector('.prev');
+const nextBtn = document.querySelector('.next');
+
+let index = 0;
+
+function updateSlide(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+}
+
+nextBtn.addEventListener('click', () => {
+    index = (index + 1) % images.length;
+    updateSlide();
+});
+
+prevBtn.addEventListener('click', () => {
+    index = (index - 1 + images.length) % images.length;
+    updateSlide();
+});
