@@ -441,7 +441,7 @@ nav a:hover{
     position: relative;
     z-index: 10;
     text-align: center;
-    color: white;
+    color: #C3D104;
     max-width: 900px;
     margin: auto;
     padding: 0 20px;
@@ -744,13 +744,18 @@ p,
     display: flex;
     align-items: center;
     justify-content: center;
+      padding: 100px 20px;
+  text-align: center;
+  background: rgba(230, 31, 131, 0.43); /* 💗 fucsia transparente real */
+ backdrop-filter: blur(14px);
+-webkit-backdrop-filter: blur(14px);
 }
 
 .como-funciona-content{
     position: relative;
     z-index: 10;
     text-align: center;
-    color: white;
+    color: #B8B1D8;
     max-width: 1100px;
     margin: auto;
     padding: 0 20px;
@@ -783,7 +788,7 @@ p,
 .paso-card h3{
     font-size: 1.2rem;
     margin-bottom: 10px;
-    color: #E61F84;
+    color: #B8B1D8;
 }
 
 .paso-card p{
@@ -1298,117 +1303,6 @@ footer p{
     object-fit: cover;
 }
 
-/* COMPONENTES */
-
-
-.impacto-card h3{
-    color: #E61F84;
-}
-
-.impacto-card p{
-    color: #B8B1D8;
-}
-
-.impacto-card{
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 18px;
-    padding: 25px;
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    transition: .3s ease;
-}
-
-.impacto-card:hover{
-    transform: translateY(-8px);
-    border-color: #C3D104;
-}
-
-.impacto-componentes-section {
-  padding: 100px 20px;
-  text-align: center;
-  background: rgba(230, 31, 131, 0.43); /* 💗 fucsia transparente real */
- backdrop-filter: blur(14px);
--webkit-backdrop-filter: blur(14px);
-}
-
-.componentes-titulo {
-  color: #B8B1D8;
-  margin-bottom: 50px;
-}
-
-.impacto-componentes {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  align-items: stretch;
-  margin: 0 auto;
-}
-
-.impacto-card {
-  width: 260px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.impacto-img {
-    position: relative;
-    width: 100%;
-    height: 260px; /* o lo que quieras */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    overflow: hidden;
-}
-
-.impacto-card .impacto-img h3{
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0;
-    padding: 14px 10px;
-    background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
-    color: #fff;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    text-align: center;
-}
-
-.impacto-img img{
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.impacto-card:hover .impacto-img img{
-    transform: scale(1.08);
-}
-
-.impacto-card h3{
-    color: #E61F84;
-    margin: 0;
-}
-
-.impacto-card p{
-    color: #B8B1D8;
-    line-height: 1.6;
-}
-
-.impacto-gallery{
-    position: relative;
-    width: 100%;
-    height: 500px;
-    overflow: hidden;
-    border-radius: 18px;
-}
 
 /* TRACK SLIDE */
 .galeria-track{
