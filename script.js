@@ -351,23 +351,58 @@ const track = document.querySelector('.galeria-track');
 const images = document.querySelectorAll('.galeria-img');
 const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
+const dotsContainer = document.querySelector('.galeria-dots');
 
 let index = 0;
+let dots = [];
 
 function updateSlide(){
     track.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('activo', i === index);
+    });
+}
+
+function goToSlide(n){
+    index = (n + images.length) % images.length;
+    updateSlide();
 }
 
 if (nextBtn && prevBtn && track && images.length) {
-    nextBtn.addEventListener('click', () => {
-        index = (index + 1) % images.length;
-        updateSlide();
-    });
 
-    prevBtn.addEventListener('click', () => {
-        index = (index - 1 + images.length) % images.length;
-        updateSlide();
-    });
+    // Crear indicadores (dots) dinámicamente, uno por imagen
+    if (dotsContainer) {
+        images.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.classList.add('galeria-dot');
+            dot.setAttribute('aria-label', `Ir a la imagen ${i + 1}`);
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+        dots = Array.from(dotsContainer.querySelectorAll('.galeria-dot'));
+    }
+
+    nextBtn.addEventListener('click', () => goToSlide(index + 1));
+    prevBtn.addEventListener('click', () => goToSlide(index - 1));
+
+    // Soporte para deslizar (swipe) en móvil
+    let touchStartX = 0;
+
+    track.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    track.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > 40) {
+            diff > 0 ? goToSlide(index + 1) : goToSlide(index - 1);
+        }
+    }, { passive: true });
+
+    updateSlide();
 }
 
 /* =========================

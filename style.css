@@ -1442,6 +1442,35 @@ footer p{
 
 .prev{ left: 12px; }
 .next{ right: 12px; }
+
+/* INDICADORES (DOTS) */
+.galeria-dots{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.galeria-dot{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+    padding: 0;
+    transition: transform .25s ease, background .25s ease;
+}
+
+.galeria-dot:hover{
+    background: rgba(255,255,255,0.6);
+}
+
+.galeria-dot.activo{
+    background: #E61F84;
+    transform: scale(1.25);
+}
+
 /* =========================
    TRANSICIÓN ENTRE PÁGINAS
 ========================= */
